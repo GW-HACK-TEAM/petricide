@@ -163,21 +163,17 @@ Template.app.onRendered(function () {
     nodes[contextX][contextY].clickEffect(playerColor);
   }
 
-  /*
   var rand1;
   var rand2;
+  var colors = ['green', 'red', 'blue', 'purple', 'pink', 'orange'];
   setInterval(function aiCycle() {
+    var color = colors[Math.round(Math.random() * colors.length - 1)]
     if (running) {
       rand1 = Math.round(Math.random() * gridWidth / size);
       rand2 = Math.round(Math.random() * gridHeight / size);
-      nodes[rand1][rand2].clickEffect('blue');
-
-      rand1 = Math.round(Math.random() * gridWidth / size);
-      rand2 = Math.round(Math.random() * gridHeight / size);
-      nodes[rand1][rand2].clickEffect('green');
+      nodes[rand1][rand2].clickEffect(color);
     }
-  }, 1000);
-  */
+  }, 50);
 
   setInterval(function() {
     if ( window.running ) {
@@ -204,6 +200,24 @@ Template.app.onRendered(function () {
   nodes[20][20].activate('green');
   nodes[21][19].activate('green');
   nodes[21][21].activate('green');
+
+  nodes[17][39].activate('purple');
+  nodes[17][41].activate('purple');
+  nodes[18][40].activate('purple');
+  nodes[19][39].activate('purple');
+  nodes[19][41].activate('purple');
+
+  nodes[39][39].activate('pink');
+  nodes[39][41].activate('pink');
+  nodes[40][40].activate('pink');
+  nodes[41][39].activate('pink');
+  nodes[41][41].activate('pink');
+
+  nodes[39][0].activate('orange');
+  nodes[39][2].activate('orange');
+  nodes[40][2].activate('orange');
+  nodes[41][0].activate('orange');
+  nodes[41][1].activate('orange');
 });
 
 
