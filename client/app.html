@@ -11,8 +11,9 @@
 </head>
 
 <body>
-<div class="canvas-container">
+<div class="platform-container">
   {{>header}}
+
   {{#if user}}
     {{#if allready}}
       {{> app}}
@@ -28,8 +29,7 @@
 </body>
 
 <template name="app">
-
-    <canvas id="canvas" class="canvas"></canvas>
+  <canvas id="canvas" class="canvas"></canvas>
 
   {{reRender}}
 </template>
@@ -47,11 +47,9 @@
     <div class="players">
       <div class="confines-wrapper">
         <ul>
-          <li class="{{active "cyan"}}">Projectmoon</li>
-          <li class="purple">Mighty Quinn</li>
-          <li class="yellow">Stackpool</li>
-          <li class="teal">Bakeruk</li>
-          <li class="coral">Donald</li>
+          {{#each getUserList}}
+            <li class="{{colour}}">{{name}}</li>
+          {{/each}}
         </ul>
       </div>
     </div>
