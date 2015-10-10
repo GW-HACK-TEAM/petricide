@@ -295,6 +295,8 @@
 
                 .confines-wrapper {
                     margin: 0 auto;
+                    padding-left: 1.8rem;
+                    padding-right: 1.8rem;
                 }
 
                 .header {
@@ -305,6 +307,7 @@
                             padding-top: 3%;
                             padding-bottom: 3%;
                             width: 30%;
+                            min-width: 12.8rem;
                         }
                     }
 
@@ -312,7 +315,7 @@
                         background-color: $grey;
 
                         ul {
-                            padding-top: 1.6rem;
+                            padding-top: 0.8rem;
                             padding-bottom: 1.6rem;
                             padding-left: 0;
                             list-style: none;
@@ -324,6 +327,7 @@
 
                             li {
                                 float: left;
+                                margin-top: 0.8rem;
                                 padding-top: 0.1rem;
                                 padding-left: 2.4rem;
                                 padding-right: 2.2rem;
