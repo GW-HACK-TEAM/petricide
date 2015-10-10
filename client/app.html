@@ -11,13 +11,26 @@
 </head>
 
 <body>
-  {{> app}}
+{{#if user}}
+  {{#if allready}}
+    {{> app}}
+  {{else}}
+    <h1>Wait...</h1>
+    <img src="/dickbutt.png">
+  {{/if}}
+{{else}}
+  <h1>We've run out of spots for you to play :(</h1>
+  <button id="reset">RESET</button>
+<img src="/dickbutt.png">
+{{/if}}
 </body>
 
 <template name="app">
-  <div class="canvas-container">
-    <canvas id="canvas" class="canvas"></canvas>
-  </div>
+
+      <div class="canvas-container">
+        <canvas id="canvas" class="canvas"></canvas>
+      </div>
+
   {{reRender}}
-  {{user}}
+
 </template>

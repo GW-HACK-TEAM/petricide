@@ -9,6 +9,7 @@ var getUser = function () {
 var setUser = function (dets) {
   user = dets;
   userDep.changed();
+  return true;
 };
 
 
@@ -42,17 +43,6 @@ function getPosition(event) {
  * Helpers
  */
 Template.app.helpers({
-  user: function () {
-    var response;
-    if (!getUser()) {
-      response = ReactiveMethod.call('newUser');
-      if (response && response.validPlayer) {
-        setUser(response);
-      }
-    } else {
-      return getUser();
-    }
-  },
   getUserDets:function(){
     return getUser();
   },
@@ -60,15 +50,35 @@ Template.app.helpers({
     var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
     if (updates.length > 0) {
       _.each(updates, function (elem) {
-        console.log(elem);
-        console.log('another player has clicked ' + elem.user.color);
-        console.log(nodes[elem.clicks[0]][elem.clicks[1]]);
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
   }
 });
 
+Template.body.helpers({
+  user: function () {
+    var response;
+    if (!getUser()) {
+      response = ReactiveMethod.call('newUser');
+      console.log('twat');
+      if (response && response.validPlayer) {
+        return setUser(response);
+      } else {
+        return false;
+      }
+    } else {
+      return getUser();
+    }
+  },
+  allready:function(){
+    return true;
+    var check = ReactiveMethod.call('readyCheck');
+    if(check){
+      return true;
+    }
+  }
+});
 
 /**
  * Events
@@ -89,6 +99,9 @@ Template.app.events({
     var click = [contextX, contextY];
     var event = {clicks: click, user:getUser(), timestamp:Date.now()};
     Meteor.call('addEvent', event);
+  },
+  'click #reset':function(){
+    Meteor.call('reset');
   }
 });
 

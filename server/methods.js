@@ -21,7 +21,33 @@ Meteor.methods({
       PlayerSlots.remove({_id:select._id});
       return response;
     } else {
-      //Router.go('nope');
+      return false;
     }
+  },
+  readyCheck:function(){
+    var slots = PlayerSlots.find({}).fetch();
+    if(slots > 1){
+      return true;
+    }
+  },
+  reset:function(){
+    console.log('resetting');
+    GameData.remove({});
+    PlayerSlots.remove({});
+
+    var colors = [
+      '#49daf4',
+      '#a864a8',
+      '#f7941d',
+      '#00a99d',
+      '#fa504d'
+    ];
+    var i = 0;
+    _.each(colors, function (elem) {
+      PlayerSlots.insert({
+        id: i++,
+        color: elem
+      });
+    });
   }
 });
