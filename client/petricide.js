@@ -82,15 +82,21 @@ Template.app.onRendered(function () {
    * @param {number} windowHeight
    */
   function scaleCanvas(windowWidth, windowHeight) {
+    var size = 0;
 
     // Logic determined by the biggest width or height
     if (windowWidth > windowHeight) {
-      $('#canvas').width(windowHeight);
-      $('#canvas').height(windowHeight);
+      size = windowHeight - $('.header').outerHeight();
     } else {
-      $('#canvas').width(windowWidth);
-      $('#canvas').height(windowWidth);
+      size = windowWidth - $('.header').outerHeight();
     }
+
+    // Update the canvas size
+    $('#canvas').width(size);
+    $('#canvas').height(size);
+
+    // Update the confines wrappers width
+    $('.confines-wrapper').width(size);
   }
 
   var canvas = document.getElementById("canvas");
