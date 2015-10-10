@@ -119,12 +119,13 @@ Template.app.onRendered(function () {
    */
   function scaleCanvas(windowWidth, windowHeight) {
     var size = 0;
+    var headerHeight = $('.header').outerHeight();
 
     // Logic determined by the biggest width or height
-    if (windowWidth > windowHeight) {
-      size = windowHeight - $('.header').outerHeight();
+    if (windowWidth >= windowHeight - headerHeight) {
+      size = windowHeight - headerHeight;
     } else {
-      size = windowWidth - $('.header').outerHeight();
+      size = windowWidth;
     }
 
     // Update the canvas size
