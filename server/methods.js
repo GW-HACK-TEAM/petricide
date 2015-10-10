@@ -1,6 +1,6 @@
 Meteor.methods({
   testMethod:function(){
-    return GameData.find({}).fetch();
+      return GameData.find({}).fetch();
   },
   newUser: function(){
     //TODO logic to test availability
