@@ -112,6 +112,7 @@ Template.app.onRendered(function () {
 
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
+  window.ctx = ctx;
 
   nodes = [];
 
@@ -246,6 +247,34 @@ Template.app.onRendered(function () {
   nodes[40][40].activate('#fa504d');
   nodes[41][39].activate('#fa504d');
   nodes[41][41].activate('#fa504d');
+
+  window.snapShot = function() {
+    window.imageData = ctx.getImageData(0, 0, 1000, 1000);
+  };
+
+  window.restoreSnapShot = function() {
+    ctx.putImageData(window.imageData, 0, 0);
+  };
+
+  window.states = [];
+
+  var colorVariations = [];
+  for (var k = 0; k < 100; k++ ) {
+    colorVariations.push([73, 218, 244, k].join(','));
+  }
+  for (var k = 0; k < 100; k++) {
+    colorVariations.push([168, 100, 168, k].join(','));
+  }
+  colorVariations.push([255, 255, 255, 1].join(','));
+  // 4000000;
+  // rgb colors
+
+  //  73,218,244
+  //  168,100,168
+  //  247,148,29
+  //  0,169,157
+  //  250,80,77
+  console.log(colorVariations.length);
 
 });
 
