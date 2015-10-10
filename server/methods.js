@@ -7,9 +7,6 @@ Meteor.methods({
       console.error('no data');
     }
   },
-  heartBeat:function(){
-    return GameData.find({});
-  },
   newUser: function(){
     //TODO logic to test availability
     var response = {
@@ -17,7 +14,6 @@ Meteor.methods({
       color: 'purple',
       validPlayer: true
     };
-    console.log(response);
     return response;
   }
 });
