@@ -290,10 +290,12 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
+                background-color: $grey-dark;
                 z-index: 1;
 
                 .canvas {
                     display: block;
                     margin: 0 auto;
+                    background-color: $white;
                 }
             }
