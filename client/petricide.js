@@ -45,9 +45,6 @@ Template.app.helpers({
   getUserDets:function(){
     return getUser();
   },
-  heartBeatCall:function(){
-
-  }
 });
 
 
