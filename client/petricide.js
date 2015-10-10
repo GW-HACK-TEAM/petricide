@@ -1,24 +1,10 @@
-var user = false;
-var userDep = new Tracker.Dependency;
-nodes = [];
-
-var getUser = function () {
-  userDep.depend();
-  return user;
-};
-var setUser = function (dets) {
-  user = dets;
-  userDep.changed();
-  return true;
-};
-
-
 var gridWidth = 1000;
 var gridHeight = 1000;
 var size = 10;
 
-var cellLifecycle = 120;
+nodes = [];
 
+var cellLifecycle = 120;
 function getPosition(event) {
   var x = event.x;
   var y = event.y;
@@ -44,10 +30,10 @@ function getPosition(event) {
  */
 Template.app.helpers({
   getUserDets:function(){
-    return getUser();
+    return Session.get('user');
   },
   reRender:function() {
-    var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
+    var updates = GameData.find({userid: {$ne: Session.get('user').id}}).fetch();
     if (updates.length > 0) {
       _.each(updates, function (elem) {
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
@@ -59,15 +45,15 @@ Template.app.helpers({
 Template.body.helpers({
   user: function () {
     var response;
-    if (!getUser()) {
+    if (!Session.get('user')) {
       response = ReactiveMethod.call('newUser');
       if (response && response.validPlayer) {
-        return setUser(response);
+        return Session.set('user', response);
       } else {
-        return false;
+        Router.go('nope');
       }
     } else {
-      return getUser();
+      return Session.get('user');
     }
   },
   allready:function(){
@@ -75,6 +61,8 @@ Template.body.helpers({
     var check = ReactiveMethod.call('readyCheck');
     if(check){
       return true;
+    } else {
+      Router.go('nope');
     }
   }
 });
@@ -96,7 +84,7 @@ Template.app.events({
     var contextY = Math.floor(scaledY / size);
 
     var click = [contextX, contextY];
-    var event = {clicks: click, user:getUser(), timestamp:Date.now()};
+    var event = {clicks: click, user:Session.get('user'), timestamp:Date.now()};
     Meteor.call('addEvent', event);
   },
   'click #reset':function(){
