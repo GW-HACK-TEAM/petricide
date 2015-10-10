@@ -20,19 +20,19 @@ Template.app.onRendered(function(){
   var gridHeight = 1000;
   var size = 10;
 
+  var cellLifecycle = 100;
+
   var i;
   var j;
 
-  var running = true;
-
+  window.running = true;
 
   canvas.width = gridWidth;
   canvas.height = gridHeight;
 
   var playerColor = 'red';
 
-  function mode(array)
-  {
+  function mode(array) {
     if(array.length === 0)
       return null;
     var modeMap = {};
@@ -45,10 +45,10 @@ Template.app.onRendered(function(){
       else
         modeMap[el]++;
       if(modeMap[el] > maxCount)
-      {
-        maxEl = el;
-        maxCount = modeMap[el];
-      }
+        {
+          maxEl = el;
+          maxCount = modeMap[el];
+        }
     }
     return maxEl;
   }
@@ -62,9 +62,10 @@ Template.app.onRendered(function(){
     node.lon = i;
     node.lat = j;
     node.health = 0;
-    node.color = 'black';
+    node.color = 'white';
     node.active = false;
     node.opacity = 1;
+    node.age = 0;
     node.draw = function(color) {
       ctx.globalAlpha = node.opacity;
       ctx.fillStyle = color;
@@ -92,38 +93,44 @@ Template.app.onRendered(function(){
         node.kill();
       }
     };
-    node.kill = function() {
+    node.kill = function(explode) {
+      node.age = 0;
       node.active = false;
       node.inactiveCount = 5;
-      node.neighbours().forEach(function(item) {
-        if ( item.active && item.color !== node.color ) {
-          item.changeHealth(-50);
-        }
-      });
+      if ( explode ) {
+        node.neighbours().forEach(function(item) {
+          if ( item.active && item.color !== node.color ) {
+            item.changeHealth(-50);
+          }
+        });
+      }
     };
     node.inactiveCount = 0;
     node.update = function() {
+      if ( node.active ) {
+        node.age++;
+
+        if ( node.age < cellLifecycle * 0.6 ) {
+          node.changeHealth(1);
+        } else if ( node.health > 20 ) {
+          node.changeHealth(-1.4);
+        }
+        if ( node.age > cellLifecycle ) {
+          node.age = 0;
+        }
+      }
+      node.draw(node.color);
+
       if ( node.inactiveCount > 0 ) {
         node.inactiveCount--;
         return;
       }
       activeNeighBours = _.filter(node.neighbours(), function(item) {
-        return item.active && item.health >= 75;
+        return item.active && item.health >= 25;
       });
 
       if ( !node.active && activeNeighBours.length === 0 ) {
         return;
-      }
-
-      rand = Math.round(Math.random()*2) + 4;
-
-      if ( node.active ) {
-
-        if ( activeNeighBours.length < rand ) {
-          node.changeHealth(1.5);
-        } else if ( activeNeighBours.length >= rand ) {
-          node.changeHealth(-0.75);
-        }
       }
 
       if ( !node.active && activeNeighBours.length >= 3 ) {
@@ -176,7 +183,8 @@ Template.app.onRendered(function(){
       } else if ( !node.active ) {
         node.activate(myColor);
         node.playerActivated = true;
-
+      } else if (node.active) {
+        node.changeHealth(60);
       }
       node.neighbours().forEach(function(item) {
         if ( item.active && item.color !== myColor ) {
@@ -184,12 +192,6 @@ Template.app.onRendered(function(){
         }
       });
     };
-
-    /*
-     node.click(function() {
-     node.clickEffect(playerColor);
-     });
-     */
 
     return node;
   }
@@ -202,25 +204,6 @@ Template.app.onRendered(function(){
     }
   }
 
-  nodes[24][24].activate('blue');
-  nodes[24][26].activate('blue');
-  nodes[25][25].activate('blue');
-  nodes[26][24].activate('blue');
-  nodes[26][26].activate('blue');
-
-  nodes[34][44].activate('red');
-  nodes[34][46].activate('red');
-  nodes[35][45].activate('red');
-  nodes[36][44].activate('red');
-  nodes[36][46].activate('red');
-
-  nodes[19][19].activate('green');
-  nodes[19][21].activate('green');
-  nodes[20][20].activate('green');
-  nodes[21][19].activate('green');
-  nodes[21][21].activate('green');
-
-
   function cycle() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for(i = 0; i < nodes.length; i++) {
@@ -230,7 +213,25 @@ Template.app.onRendered(function(){
     }
   }
 
-  canvas.addEventListener("mousedown", getPosition, false);
+  var mousex;
+  var mousey;
+
+  canvas.addEventListener('mousedown', getPosition, false);
+  canvas.addEventListener('mousemove', setMouse, false);
+
+  document.addEventListener('keydown', function(e) {
+    if ( e.keyCode === 32 ) {
+      getPosition({
+        x: mousex,
+        y: mousey
+      });
+    }
+  }, false);
+
+  function setMouse(e) {
+    mousex = e.pageX;
+    mousey = e.pageY;
+  }
 
   function getPosition(event) {
     var x = event.x;
@@ -262,8 +263,30 @@ Template.app.onRendered(function(){
   }, 1000);
 
   setInterval(function() {
-    if ( running ) {
+    if ( window.running ) {
       cycle();
     }
   }, 1000/60);
+
+  // Activate starting points.
+
+  nodes[44][24].activate('blue');
+  nodes[44][26].activate('blue');
+  nodes[45][25].activate('blue');
+  nodes[46][24].activate('blue');
+  nodes[46][26].activate('blue');
+
+  nodes[34][44].activate('red');
+  nodes[34][46].activate('red');
+  nodes[35][45].activate('red');
+  nodes[36][44].activate('red');
+  nodes[36][46].activate('red');
+
+  nodes[19][19].activate('green');
+  nodes[19][21].activate('green');
+  nodes[20][20].activate('green');
+  nodes[21][19].activate('green');
+  nodes[21][21].activate('green');
 });
+
+
