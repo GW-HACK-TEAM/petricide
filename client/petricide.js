@@ -6,7 +6,6 @@ Template.app.helpers({
 
 Template.app.events({
   'click #canvas':function(){
-    console.log('test');
     Session.set('trigger', Date.now());
   }
 });
