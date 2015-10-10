@@ -21,7 +21,7 @@ GameCell = function GameCell(i, j, ctx, size, cellLifecycle, nodes) {
 GameCell.prototype.activate = function activate(color) {
   this.color = color;
   this.active = true;
-  this.changeHealth(15);
+  this.changeHealth(5);
   this.draw(color);
 };
 
