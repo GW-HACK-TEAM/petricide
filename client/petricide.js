@@ -1,12 +1,12 @@
-var payload = [];
+var payload = false;
 var payloadDep = new Tracker.Dependency;
 
 var getPayload = function () {
   payloadDep.depend();
   return payload;
 };
-var addToPayload = function (arr) {
-  payload.push(arr);
+var addToPayload = function (data) {
+  payload = data;
   payloadDep.changed();
 };
 
@@ -24,8 +24,9 @@ var setUser = function (dets) {
 
 Template.app.helpers({
   getGameData: function () {
-    return _.first(ReactiveMethod.call('testMethod', getPayload()));
-  },
+    ReactiveMethod.call('testMethod', getPayload());
+  }
+  ,
   user: function () {
     var response;
     if (!getUser()) {
@@ -39,15 +40,17 @@ Template.app.helpers({
   },
   getUserDets:function(){
     return getUser();
+  },
+  heartBeatCall:function(){
+
   }
 });
 
 Template.app.events({
   'click #canvas': function (e) {
-
-    var click = [33, 44];
-    addToPayload(click);
-    console.log(getPayload());
+    var event = {clicks: [33, 44], user:getUser(), timestamp:Date.now()};
+    console.log(event);
+    addToPayload(event);
   }
 });
 Template.app.onRendered(function () {
