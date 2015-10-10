@@ -59,6 +59,7 @@ Template.app.onRendered(function(){
     var activeNeighBours = [];
     var rand;
     var activeColor;
+    var counts;
     node.lon = i;
     node.lat = j;
     node.health = 0;
@@ -134,8 +135,13 @@ Template.app.onRendered(function(){
       }
 
       if ( !node.active && activeNeighBours.length >= 3 ) {
-        activeColor = mode(_(activeNeighBours).pluck('color'));
-        node.activate(activeColor);
+        counts = _.countBy(activeNeighBours, function(item) {
+          return item.color;
+        });
+        if ( _(counts).values().sort().pop() >= 3 ) {
+          activeColor = mode(_(activeNeighBours).pluck('color'));
+          node.activate(activeColor);
+        }
       }
     };
     node.cachedNeighbours = [];
