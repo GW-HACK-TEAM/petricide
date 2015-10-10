@@ -92,7 +92,7 @@ Template.app.onRendered(function () {
   var gridHeight = 1000;
   var size = 10;
 
-  var cellLifecycle = 100;
+  var cellLifecycle = 120;
 
   var i;
   var j;
