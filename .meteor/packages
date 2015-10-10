@@ -20,5 +20,8 @@ autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 reactive-var
 simple:reactive-method
+random
+msavin:jetsetter
+check
 chriswessels:hammer
 fourseven:scss
