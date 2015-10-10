@@ -5,65 +5,40 @@
     $font-default: Arial, Helvetica, sans-serif;
 
     // Typography spacing
-    $header-spacing-top: 20px;
-    $header-spacing-bottom: 0px;
-    $paragraph-spacing-top: 15px;
-    $paragraph-spacing-bottom: 0px;
-    $paragraph-spacing-large-top: 34px;
-    $paragraph-spacing-large-bottom: 0px;
+    $header-spacing-top: 2rem;
+    $header-spacing-bottom: 0rem;
+    $paragraph-spacing-top: 1.5rem;
+    $paragraph-spacing-bottom: 0rem;
+    $paragraph-spacing-large-top: 3.4rem;
+    $paragraph-spacing-large-bottom: 0rem;
 
     // Styles/mixins
     @mixin t-display-4 {
-        padding: 0;
-        font-family: $font-default;
-        font-size: 5em;
-        line-height: 1.3em;
-        letter-spacing: 0em;
-        font-weight: 700;
+        // CODE HERE
     }
 
     .t-display-4 { @include t-display-4; }
 
     @mixin t-display-3 {
-        padding: 0;
-        font-family: $font-default;
-        font-size: 4.6em;
-        line-height: 1.3em;
-        letter-spacing: 0em;
-        font-weight: 700;
+        // CODE HERE
     }
 
     .t-display-3 { @include t-display-3; }
 
     @mixin t-display-2 {
-        padding: 0;
-        font-family: $font-default;
-        font-size: 4.2em;
-        line-height: 1.3em;
-        letter-spacing: 0em;
-        font-weight: 700;
+        // CODE HERE
     }
 
     .t-display-2 { @include t-display-2; }
 
     @mixin t-display-1 {
-        padding: 0;
-        font-family: $font-default;
-        font-size: 4em;
-        line-height: 1.3em;
-        letter-spacing: 0em;
-        font-weight: 700;
+        // CODE HERE
     }
 
     .t-display-1 { @include t-display-1; }
 
     @mixin t-headline {
-        padding: 0;
-        font-family: $font-default;
-        font-size: 3.6em;
-        line-height: 1.3em;
-        letter-spacing: 0em;
-        font-weight: 700;
+        // CODE HERE
     }
 
     .t-headline { @include t-headline; }
@@ -71,7 +46,7 @@
     @mixin t-title {
         padding: 0;
         font-family: $font-default;
-        font-size: 2.8em;
+        font-size: 2.8rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 700;
@@ -82,7 +57,7 @@
     @mixin t-subhead-3 {
         padding: $header-spacing-top 0 $header-spacing-bottom;
         font-family: $font-default;
-        font-size: 2.2em;
+        font-size: 2.2rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 700;
@@ -93,7 +68,7 @@
     @mixin t-subhead-2 {
         padding: $header-spacing-top 0 $header-spacing-bottom;
         font-family: $font-default;
-        font-size: 1.8em;
+        font-size: 1.8rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 700;
@@ -104,7 +79,7 @@
     @mixin t-subhead-1 {
         padding: $header-spacing-top 0 $header-spacing-bottom;
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 700;
@@ -115,7 +90,7 @@
     @mixin t-body-3 {
         padding: $paragraph-spacing-top 0 $paragraph-spacing-bottom;
         font-family: $font-default;
-        font-size: 1.6em;
+        font-size: 1.6rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -126,7 +101,7 @@
     @mixin t-body-2 {
         padding: $paragraph-spacing-top 0 $paragraph-spacing-bottom;
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -137,7 +112,7 @@
     @mixin t-body-1 {
         padding: $paragraph-spacing-top 0 $paragraph-spacing-bottom;
         font-family: $font-default;
-        font-size: 1.3em;
+        font-size: 1.3rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -169,7 +144,7 @@
     @mixin t-small-print-2 {
         padding: $paragraph-spacing-top 0 $paragraph-spacing-bottom;
         font-family: $font-default;
-        font-size: 1.2em;
+        font-size: 1.2rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -180,7 +155,7 @@
     @mixin t-small-print-1 {
         padding: $paragraph-spacing-top 0 $paragraph-spacing-bottom;
         font-family: $font-default;
-        font-size: 1em;
+        font-size: 1rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -204,7 +179,7 @@
 
     @mixin t-caption-2 {
         font-family: $font-default;
-        font-size: 1.2em;
+        font-size: 1.2rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -214,7 +189,7 @@
 
     @mixin t-caption-1 {
         font-family: $font-default;
-        font-size: 1.1em;
+        font-size: 1.1rem;
         line-height: 1.4em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -238,7 +213,7 @@
 
     @mixin t-menu-2 {
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -248,7 +223,7 @@
 
     @mixin t-menu-1 {
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -258,7 +233,7 @@
 
     @mixin t-link-3 {
         font-family: $font-default;
-        font-size: 1.6em;
+        font-size: 1.6rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -268,7 +243,7 @@
 
     @mixin t-link-2 {
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -278,7 +253,7 @@
 
     @mixin t-link-1 {
         font-family: $font-default;
-        font-size: 1.2em;
+        font-size: 1.2rem;
         line-height: 1.3em;
         letter-spacing: 0em;
         font-weight: 400;
@@ -288,7 +263,7 @@
 
     @mixin t-button-2 {
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         letter-spacing: 0em;
         line-height: 1.3em;
         font-weight: 400;
@@ -298,7 +273,7 @@
 
     @mixin t-button-1 {
         font-family: $font-default;
-        font-size: 1.4em;
+        font-size: 1.4rem;
         letter-spacing: 0.02em;
         line-height: 1.3em;
         font-weight: 400;

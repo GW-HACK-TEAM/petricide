@@ -8,12 +8,12 @@
 
     html {
         position: relative;
-        font-size: 100%;
+        font-size: 62.5%; /* font size 10px */
     }
 
         body {
+            position: relative;
             font-family: $font-default;
-            font-size: 0.625em; /* Font size 10px */
             color: $grey-dark;
             -webkit-text-size-adjust: 100%; /* Remove iPhone text size override */
         }
@@ -107,15 +107,15 @@
             ul,
             ol,
             dl {
-                @extend .t-body-2;
-                padding: $paragraph-spacing-top 0 0 38px;
+                @extend .t-body-1;
+                padding: $paragraph-spacing-top 0 0 3.8rem;
 
                 li {
-                    padding: 0 0 8px;
+                    padding: 0;
 
                     ul {
-                        font-size: 1em;
-                        line-height: 1em;
+                        font-size: 1rem;
+                        line-height: 1.4em;
                     }
                 }
             }
@@ -124,7 +124,7 @@
                 padding-left: 0;
 
                 dt {
-                    @extend .t-body-2-bold;
+                    @extend .t-body-1-bold;
 
                     &:first-child {
                         padding-top: 0;
@@ -166,38 +166,38 @@
 
             table {
                 @extend .t-body-2;
-                margin: 28px 0;
+                margin: 2.8rem 0;
                 width: 100%;
                 border: 0;
                 border-spacing: 0;
 
                 th,
                 td {
-                    padding: 4px 14px;
+                    padding: 0.4rem 1.4rem;
                 }
 
                 th {
-                    font-size: 1.2em;
+                    font-size: 1.2rem;
                     text-align: left;
                 }
 
                 .border-top {
-                    border-top: 1px solid $grey-dark;
+                    border-top: 0.1rem solid $grey-dark;
                 }
 
                 .border-right {
-                    border-right: 1px solid $grey-dark;
+                    border-right: 0.1rem solid $grey-dark;
                 }
 
                 th,
                 .border-bottom {
-                    border-bottom: 1px solid $grey-dark;
+                    border-bottom: 0.1rem solid $grey-dark;
                 }
 
                 th,
                 td,
                 .border-left {
-                    border-left: 1px solid $grey-dark;
+                    border-left: 0.1rem solid $grey-dark;
                 }
 
                 th:first-child,
@@ -228,7 +228,7 @@
                 }
 
                 .error {
-                    border: 1px solid $red;
+                    border: 0.1rem solid $red;
                 }
             }
 
@@ -268,8 +268,8 @@
 
             .off-screen {
                 position: absolute;
-                left: -99999px;
-                text-indent: -99999px;
+                left: -99999rem;
+                text-indent: -99999rem;
             }
 
             .clear {
@@ -284,4 +284,11 @@
         /*----------------------------------------------------------------------------
         /*  Content                                                                 */
 
-
+            #canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }

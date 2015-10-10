@@ -5,7 +5,7 @@ Template.app.helpers({
 });
 
 Template.app.events({
-  'click #canvas':function(){
+  'click #canvas': function(e) {
     Session.set('trigger', Date.now());
   }
 });
@@ -234,16 +234,23 @@ Template.app.onRendered(function(){
   }
 
   function getPosition(event) {
+    var canvas = document.getElementById("canvas");
+
     var x = event.x;
     var y = event.y;
 
-    var canvas = document.getElementById("canvas");
+    var windowWidth = $(window).width();
+    var heightWidth = $(window).height();
+
+    // Find out the scaled X and Y coordinates
+    var scaledX = x * (gridWidth / windowWidth);
+    var scaledY = y * (gridHeight / heightWidth);
 
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
 
-    var contextX = Math.floor(x/size);
-    var contextY = Math.floor(y/size);
+    var contextX = Math.floor(scaledX / size);
+    var contextY = Math.floor(scaledY / size);
 
     nodes[contextX][contextY].clickEffect(playerColor);
   }
