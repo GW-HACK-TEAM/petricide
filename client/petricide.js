@@ -282,7 +282,7 @@ Template.app.onRendered(function () {
   var mousex;
   var mousey;
 
-  canvas.addEventListener('mousedown', getPosition, false);
+  canvas.addEventListener('click', getPosition, false);
   canvas.addEventListener('mousemove', setMouse, false);
 
   document.addEventListener('keydown', function(e) {
@@ -300,8 +300,6 @@ Template.app.onRendered(function () {
   }
 
   function getPosition(event) {
-    var canvas = document.getElementById("canvas");
-
     var x = event.x;
     var y = event.y;
 
