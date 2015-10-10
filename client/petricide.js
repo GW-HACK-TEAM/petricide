@@ -44,6 +44,15 @@ Template.app.helpers({
   },
   getUserDets:function(){
     return getUser();
+  },
+  reRender:function(){
+    var updates = GameData.find({}).fetch();
+    console.log(updates);
+    if(updates){
+      _.each(updates, function(elem){
+        nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
+      });
+    }
   }
 });
 
@@ -60,7 +69,7 @@ Template.app.events({
     var click = [x, y];
     var event = {clicks: click, user:getUser(), timestamp:Date.now()};
     addToPayload(event);
-    console.log(getPayload());
+    //console.log(getPayload());
   }
 });
 

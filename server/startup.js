@@ -9,6 +9,6 @@ Meteor.startup(function () {
   GameData.remove({});
   GameData.insert({sampledata:'sampletestdata'});
   Meteor.setInterval(function(){
-    console.log('test');
+    //console.log('test');
   }, 1000);
 });
