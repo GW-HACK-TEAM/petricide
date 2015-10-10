@@ -1,7 +1,16 @@
 Template.app.helpers({
+  getGameData:function(){
+    var test = ReactiveMethod.call('testMethod', Session.get('trigger'));
+    console.log(test);
+    return test;
+  }
 });
 
 Template.app.events({
+  'click #canvas':function(){
+    console.log('test');
+    Session.set('trigger', Date.now());
+  }
 });
 
 Template.app.onRendered(function(){

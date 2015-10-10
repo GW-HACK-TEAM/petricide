@@ -1,0 +1,1 @@
+GameData = new Meteor.Collection('gamedata');
