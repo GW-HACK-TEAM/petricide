@@ -25,8 +25,11 @@ Meteor.methods({
   },
   readyCheck:function(){
     var slots = PlayerSlots.find({}).fetch();
-    if(slots > 1){
+    console.log(slots);
+    if(slots.length < 4){
       return true;
+    } else {
+      return false;
     }
   },
   reset:function(){
