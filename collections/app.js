@@ -1,2 +1,2 @@
 GameData = new Meteor.Collection('gamedata');
-PublishData = new Meteor.Collection('publishdata');
+PlayerSlots = new Meteor.Collection('playerslots');

@@ -1,15 +1,3 @@
-var payload = false;
-var payloadDep = new Tracker.Dependency;
-
-var getPayload = function () {
-  payloadDep.depend();
-  return payload;
-};
-var addToPayload = function (data) {
-  payload = data;
-  payloadDep.changed();
-};
-
 var user = false;
 var userDep = new Tracker.Dependency;
 
@@ -27,10 +15,6 @@ var setUser = function (dets) {
  * Helpers
  */
 Template.app.helpers({
-  getGameData: function () {
-    ReactiveMethod.call('testMethod', getPayload());
-  }
-  ,
   user: function () {
     var response;
     if (!getUser()) {
@@ -39,6 +23,7 @@ Template.app.helpers({
         setUser(response);
       }
     } else {
+      console.log(getUser());
       return getUser();
     }
   },
@@ -47,10 +32,9 @@ Template.app.helpers({
   },
   reRender:function(){
     var updates = GameData.find({}).fetch();
-    console.log(updates);
     if(updates){
       _.each(updates, function(elem){
-        nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
+        console.log(elem);
       });
     }
   }
@@ -67,9 +51,8 @@ Template.app.events({
     var y = e.originalEvent.y - canvas.offsetTop;
 
     var click = [x, y];
-    var event = {clicks: click, user:getUser(), timestamp:Date.now()};
-    addToPayload(event);
-    //console.log(getPayload());
+    var event = {clicks: click, user:getUser().id, timestamp:Date.now()};
+    Meteor.call('addEvent', event);
   }
 });
 
