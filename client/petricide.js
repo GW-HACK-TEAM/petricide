@@ -1,5 +1,6 @@
 var user = false;
 var userDep = new Tracker.Dependency;
+nodes = [];
 
 var getUser = function () {
   userDep.depend();
@@ -10,6 +11,32 @@ var setUser = function (dets) {
   userDep.changed();
 };
 
+
+var gridWidth = 1000;
+var gridHeight = 1000;
+var size = 10;
+
+var cellLifecycle = 120;
+
+function getPosition(event) {
+  var x = event.x;
+  var y = event.y;
+
+  var windowWidth = $(window).width();
+  var heightWidth = $(window).height();
+
+  x -= canvas.offsetLeft;
+  y -= canvas.offsetTop;
+
+  // Find out the scaled X and Y coordinates
+  var scaledX = x * (gridWidth / $('#canvas').width());
+  var scaledY = y * (gridHeight / $('#canvas').height());
+
+  var contextX = Math.floor(scaledX / size);
+  var contextY = Math.floor(scaledY / size);
+
+  nodes[contextX][contextY].clickEffect(playerColor);
+}
 
 /**
  * Helpers
@@ -23,18 +50,18 @@ Template.app.helpers({
         setUser(response);
       }
     } else {
-      console.log(getUser());
       return getUser();
     }
   },
   getUserDets:function(){
     return getUser();
   },
-  reRender:function(){
-    var updates = GameData.find({}).fetch();
-    if(updates){
-      _.each(updates, function(elem){
-        console.log(elem);
+  reRender:function() {
+    var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
+    if (updates.length > 0) {
+      _.each(updates, function (elem) {
+        console.log('another player has clicked ' + elem.color);
+        nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.color);
       });
     }
   }
@@ -50,8 +77,15 @@ Template.app.events({
     var x = e.originalEvent.x - canvas.offsetLeft;
     var y = e.originalEvent.y - canvas.offsetTop;
 
-    var click = [x, y];
-    var event = {clicks: click, user:getUser().id, timestamp:Date.now()};
+    // Find out the scaled X and Y coordinates
+    var scaledX = x * (gridWidth / $('#canvas').width());
+    var scaledY = y * (gridHeight / $('#canvas').height());
+
+    var contextX = Math.floor(scaledX / size);
+    var contextY = Math.floor(scaledY / size);
+
+    var click = [contextX, contextY];
+    var event = {clicks: click, user:getUser(), timestamp:Date.now()};
     Meteor.call('addEvent', event);
   }
 });
@@ -96,13 +130,6 @@ Template.app.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
 
-  nodes = [];
-
-  var gridWidth = 1000;
-  var gridHeight = 1000;
-  var size = 10;
-
-  var cellLifecycle = 120;
 
   var i;
   var j;
@@ -183,14 +210,14 @@ Template.app.onRendered(function () {
     '#fa504d'
   ];
 
-  setInterval(function aiCycle() {
-    var color = colors[Math.round(Math.random() * colors.length - 1)]
-    if (running) {
-      rand1 = Math.round(Math.random() * gridWidth / size);
-      rand2 = Math.round(Math.random() * gridHeight / size);
-      nodes[rand1][rand2].clickEffect(color);
-    }
-  }, 50);
+  //setInterval(function aiCycle() {
+  //  var color = colors[Math.round(Math.random() * colors.length - 1)]
+  //  if (running) {
+  //    rand1 = Math.round(Math.random() * gridWidth / size);
+  //    rand2 = Math.round(Math.random() * gridHeight / size);
+  //    nodes[rand1][rand2].clickEffect(color);
+  //  }
+  //}, 50);
 
   setInterval(function() {
     if ( window.running ) {
