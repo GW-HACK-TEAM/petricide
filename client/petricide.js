@@ -183,8 +183,9 @@ Template.app.onRendered(function(){
       } else if ( !node.active ) {
         node.activate(myColor);
         node.playerActivated = true;
-      } else if (node.active) {
+      } else if (node.active && node.color === myColor) {
         node.changeHealth(60);
+        node.age = 0;
       }
       node.neighbours().forEach(function(item) {
         if ( item.active && item.color !== myColor ) {
