@@ -52,6 +52,37 @@ Template.app.events({
 });
 Template.app.onRendered(function () {
 
+  // Scale the canvas to make it fit inside the browser
+  scaleCanvas($(window).width(), $(window).height());
+
+
+  $(window).resize(function() {
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+
+    // Scale the canvas to make it fit inside the browser
+    scaleCanvas(windowWidth, windowHeight);
+  });
+
+
+  /**
+   * Scale the canvas to make it fit inside the browser
+   *
+   * @param {number} windowWidth
+   * @param {number} windowHeight
+   */
+  function scaleCanvas(windowWidth, windowHeight) {
+
+    // Logic determined by the biggest width or height
+    if (windowWidth > windowHeight) {
+      $('#canvas').width(windowHeight);
+      $('#canvas').height(windowHeight);
+    } else {
+      $('#canvas').width(windowWidth);
+      $('#canvas').height(windowWidth);
+    }
+  }
+
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
 
@@ -95,7 +126,7 @@ Template.app.onRendered(function () {
   var mousex;
   var mousey;
 
-  canvas.addEventListener('mousedown', getPosition, false);
+  canvas.addEventListener('click', getPosition, false);
   canvas.addEventListener('mousemove', setMouse, false);
 
   document.addEventListener('keydown', function(e) {
@@ -113,17 +144,18 @@ Template.app.onRendered(function () {
   }
 
   function getPosition(event) {
-    var canvas = document.getElementById("canvas");
-
     var x = event.x;
     var y = event.y;
 
     var windowWidth = $(window).width();
     var heightWidth = $(window).height();
 
+    x -= canvas.offsetLeft;
+    y -= canvas.offsetTop;
+
     // Find out the scaled X and Y coordinates
-    var scaledX = x * (gridWidth / windowWidth);
-    var scaledY = y * (gridHeight / heightWidth);
+    var scaledX = x * (gridWidth / $('#canvas').width());
+    var scaledY = y * (gridHeight / $('#canvas').height());
 
     var contextX = Math.floor(scaledX / size);
     var contextY = Math.floor(scaledY / size);
