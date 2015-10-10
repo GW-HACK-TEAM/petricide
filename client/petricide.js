@@ -312,11 +312,8 @@ Template.app.onRendered(function () {
     var scaledX = x * (gridWidth / windowWidth);
     var scaledY = y * (gridHeight / heightWidth);
 
-    x -= canvas.offsetLeft;
-    y -= canvas.offsetTop;
-
-    var contextX = Math.floor(x / size);
-    var contextY = Math.floor(y / size);
+    var contextX = Math.floor(scaledX / size);
+    var contextY = Math.floor(scaledY / size);
 
     nodes[contextX][contextY].clickEffect(playerColor);
   }
