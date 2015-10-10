@@ -1,12 +1,12 @@
-var payload = [];
+var payload = false;
 var payloadDep = new Tracker.Dependency;
 
 var getPayload = function () {
   payloadDep.depend();
   return payload;
 };
-var addToPayload = function (arr) {
-  payload.push(arr);
+var addToPayload = function (data) {
+  payload = data;
   payloadDep.changed();
 };
 
@@ -22,10 +22,15 @@ var setUser = function (dets) {
   userDep.changed();
 };
 
+
+/**
+ * Helpers
+ */
 Template.app.helpers({
   getGameData: function () {
-    return _.first(ReactiveMethod.call('testMethod', getPayload()));
-  },
+    ReactiveMethod.call('testMethod', getPayload());
+  }
+  ,
   user: function () {
     var response;
     if (!getUser()) {
@@ -42,14 +47,27 @@ Template.app.helpers({
   }
 });
 
+
+/**
+ * Events
+ */
 Template.app.events({
   'click #canvas': function (e) {
+    var canvas = document.getElementById("canvas");
+    var x = e.originalEvent.x - canvas.offsetLeft;
+    var y = e.originalEvent.y - canvas.offsetTop;
 
-    var click = [33, 44];
-    addToPayload(click);
+    var click = [x, y];
+    var event = {clicks: click, user:getUser(), timestamp:Date.now()};
+    addToPayload(event);
     console.log(getPayload());
   }
 });
+
+
+/**
+ * On render
+ */
 Template.app.onRendered(function () {
 
   // Scale the canvas to make it fit inside the browser
