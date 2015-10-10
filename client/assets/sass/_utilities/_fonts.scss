@@ -1,6 +1,16 @@
 //----------------------------------------------------------------------------
 //  Fonts                                                               //
 
+    @font-face {
+        font-family: 'Petricide';
+        font-style: normal;
+        font-weight: 400;
+        src: url('/fonts/petricide/petricide-webfont.eot?') format('eot'),
+             url('/fonts/petricide/petricide-webfont.woff') format('woff'),
+             url('/fonts/petricide/petricide-webfont.svg') format('svg'),
+             url('/fonts/petricide/petricide-webfont.ttf') format('ttf');
+    }
+
     // Fonts
     $font-default: Arial, Helvetica, sans-serif;
 

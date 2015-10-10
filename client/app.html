@@ -26,11 +26,31 @@
 </body>
 
 <template name="app">
-
-      <div class="canvas-container">
-        <canvas id="canvas" class="canvas"></canvas>
+  <div class="canvas-container">
+    <header class="header">
+      <div class="logo">
+        <div class="confines-wrapper">
+          <a href="/">
+            <img class="full" src="/images/logo.png" alt="Petricide logo" />
+          </a>
+        </div>
       </div>
 
+      <div class="players">
+        <div class="confines-wrapper">
+          <ul>
+            <li class="cyan">Projectmoon</li>
+            <li class="purple">Mighty Quinn</li>
+            <li class="yellow">Stackpool</li>
+            <li class="teal">Bakeruk</li>
+            <li class="coral">Donald</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <canvas id="canvas" class="canvas"></canvas>
+  </div>
   {{reRender}}
 
 </template>
