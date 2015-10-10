@@ -1,7 +1,6 @@
 Meteor.methods({
 
   addEvent:function(payload){
-    console.log(payload);
     if(payload){
       GameData.insert({user:payload.user,clicks:payload.clicks});
     } else {
@@ -10,7 +9,6 @@ Meteor.methods({
   },
   newUser: function(){
     var slots = PlayerSlots.find({}).fetch();
-    console.log(slots);
     if(slots.length > 0){
       var select = _.first(slots);
       var response = {
@@ -31,7 +29,6 @@ Meteor.methods({
     }
   },
   reset:function(){
-    console.log('resetting');
     GameData.remove({});
     PlayerSlots.remove({});
 

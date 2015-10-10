@@ -61,7 +61,6 @@ Template.body.helpers({
     var response;
     if (!getUser()) {
       response = ReactiveMethod.call('newUser');
-      console.log('twat');
       if (response && response.validPlayer) {
         return setUser(response);
       } else {
