@@ -1,16 +1,38 @@
+example = new ReactiveVar();
+
 Template.app.helpers({
   getGameData:function(){
-    return _.first(ReactiveMethod.call('testMethod', Session.get('trigger')));
+    return _.first(ReactiveMethod.call('testMethod', example.get()));
+  },
+  user:function(){
+
+    // if new user
+    if(!Session.get('userId')){
+      Session.set('userId', ReactiveMethod.call('newuser');
+    }
   }
+
 });
 
 Template.app.events({
   'click #canvas':function(){
     Session.set('trigger', Date.now());
+    example.set([Session.get('userId'), coords]);
   }
 });
 
 Template.app.onRendered(function(){
+
+
+
+
+
+
+
+
+
+
+
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
 
