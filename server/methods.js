@@ -1,9 +1,8 @@
 Meteor.methods({
 
   addEvent:function(payload){
-    console.log(payload);
     if(payload){
-      GameData.insert({user:payload.user,clicks:payload.clicks});
+      nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color);
     } else {
       console.error('no data');
     }
@@ -23,6 +22,15 @@ Meteor.methods({
     } else {
       //Router.go('nope');
     }
+  },
+  addSnapshot: function(snap) {
+    check(snap, String);
+
+    SnapShots.remove({});
+    SnapShots.insert({
+      shot: snap ,
+      stamp: Date.now()
+    });
   }
 });
 
@@ -141,11 +149,55 @@ nodes[40][40].activate('#fa504d');
 nodes[41][39].activate('#fa504d');
 nodes[41][41].activate('#fa504d');
 
+/*
 var snapShot = function() {
   return canvas.toDataURL();
 };
+*/
+var snapShot = function canvasToImage(backgroundColor) {
+  //cache height and width
+  var w = canvas.width;
+  var h = canvas.height;
 
-setInterval(function() {
+  var data;
+
+  if(backgroundColor) {
+    //get the current ImageData for the canvas.
+    data = ctx.getImageData(0, 0, w, h);
+
+    //store the current globalCompositeOperation
+    var compositeOperation = ctx.globalCompositeOperation;
+
+    //set to draw behind current content
+    ctx.globalCompositeOperation = "destination-over";
+
+    //set background color
+    ctx.fillStyle = backgroundColor;
+
+    //draw background / rect on entire canvas
+    ctx.fillRect(0,0,w,h);
+  }
+
+  //get the image data from the canvas
+  var imageData = canvas.toDataURL();
+
+  if(backgroundColor) {
+    //clear the canvas
+    ctx.clearRect (0,0,w,h);
+
+    //restore it with original / cached ImageData
+    ctx.putImageData(data, 0,0);
+
+    //reset the globalCompositeOperation to what it was
+    ctx.globalCompositeOperation = compositeOperation;
+  }
+
+  //return the Base64 encoded data url string
+  return imageData;
+};
+
+Meteor.setInterval(function() {
   cycle();
  // console.log(snapShot());
-}, 1000);
+  Meteor.call('addSnapshot', snapShot('white'));
+}, 1000/10);
