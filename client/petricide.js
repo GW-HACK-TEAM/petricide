@@ -57,12 +57,11 @@ Template.body.helpers({
     }
   },
   allready:function(){
-    return true;
-    var check = ReactiveMethod.call('readyCheck');
-    if(check){
+    var check = PlayerSlots.find({}).fetch();
+    if(check.length < 4){
       return true;
     } else {
-      Router.go('nope');
+      return false;
     }
   }
 });
