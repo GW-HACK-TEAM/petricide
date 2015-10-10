@@ -22,6 +22,10 @@ var setUser = function (dets) {
   userDep.changed();
 };
 
+
+/**
+ * Helpers
+ */
 Template.app.helpers({
   getGameData: function () {
     return _.first(ReactiveMethod.call('testMethod', getPayload()));
@@ -42,6 +46,10 @@ Template.app.helpers({
   }
 });
 
+
+/**
+ * Events
+ */
 Template.app.events({
   'click #canvas': function (e) {
 
@@ -54,6 +62,11 @@ Template.app.events({
     console.log(getPayload());
   }
 });
+
+
+/**
+ * On render
+ */
 Template.app.onRendered(function () {
 
   // Scale the canvas to make it fit inside the browser
