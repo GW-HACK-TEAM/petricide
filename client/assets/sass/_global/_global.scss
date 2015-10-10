@@ -1,0 +1,287 @@
+/*----------------------------------------------------------------------------
+/*  Globals - General Setup                                                 */
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        position: relative;
+        font-size: 100%;
+    }
+
+        body {
+            font-family: $font-default;
+            font-size: 0.625em; /* Font size 10px */
+            color: $grey-dark;
+            -webkit-text-size-adjust: 100%; /* Remove iPhone text size override */
+        }
+
+        /*----------------------------------------------------------------------------
+        /*  Text                                                                    */
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                padding: $header-spacing-top 0 $header-spacing-bottom 0;
+            }
+
+            h1 {
+                @extend .t-title;
+            }
+
+            h2 {
+                @extend .t-subhead-3;
+            }
+
+            h3 {
+                @extend .t-subhead-2;
+            }
+
+            h4 {
+                @extend .t-subhead-1;
+            }
+
+            h5 {
+                @extend .t-body-3-bold;
+            }
+
+            h6 {
+                @extend .t-body-2-bold;
+            }
+
+            p {
+                @extend .t-body-2;
+            }
+
+            strong {
+                font-weight: 700;
+            }
+
+            .smallprint {
+                @extend .t-small-print-2;
+            }
+
+            *::selection {
+                background: $baby-blue;
+            }
+
+            *::-moz-selection {
+                background: $baby-blue;
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Links                                                                   */
+
+            a {
+                display: block;
+                outline: 0;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: none;
+                }
+
+                img {
+                    border: 0;
+                    outline: 0;
+                }
+            }
+
+            p a {
+                display: inline;
+                color: $red;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Lists                                                                   */
+
+            ul,
+            ol,
+            dl {
+                @extend .t-body-2;
+                padding: $paragraph-spacing-top 0 0 38px;
+
+                li {
+                    padding: 0 0 8px;
+
+                    ul {
+                        font-size: 1em;
+                        line-height: 1em;
+                    }
+                }
+            }
+
+            dl {
+                padding-left: 0;
+
+                dt {
+                    @extend .t-body-2-bold;
+
+                    &:first-child {
+                        padding-top: 0;
+                    }
+                }
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Images                                                                  */
+
+            img {
+                display: block;
+
+                &.full {
+                    width: 100%;
+                }
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Videos                                                                  */
+
+            .video-container {
+                position: relative;
+                padding-top: 56.25%; /* 16:9 ratio */
+                // padding-top: 75%; /* 4:3 ratio */
+
+                .video,
+                > iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Tables                                                                  */
+
+            table {
+                @extend .t-body-2;
+                margin: 28px 0;
+                width: 100%;
+                border: 0;
+                border-spacing: 0;
+
+                th,
+                td {
+                    padding: 4px 14px;
+                }
+
+                th {
+                    font-size: 1.2em;
+                    text-align: left;
+                }
+
+                .border-top {
+                    border-top: 1px solid $grey-dark;
+                }
+
+                .border-right {
+                    border-right: 1px solid $grey-dark;
+                }
+
+                th,
+                .border-bottom {
+                    border-bottom: 1px solid $grey-dark;
+                }
+
+                th,
+                td,
+                .border-left {
+                    border-left: 1px solid $grey-dark;
+                }
+
+                th:first-child,
+                td:first-child,
+                .border-left:first-child {
+                    border-left: 0;
+                }
+
+                .even,
+                tr:nth-child(even) {
+                    background: $green-highlight;
+                }
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Form                                                                    */
+
+            form {
+                padding: 0;
+
+                fieldset {
+                    padding: 0;
+                    border: 0;
+                }
+
+                legend {
+                    display: none;
+                }
+
+                .error {
+                    border: 1px solid $red;
+                }
+            }
+
+            label {
+                display: block;
+
+                abbr {
+                    padding: 0;
+                    border: 0;
+                }
+
+                &:after {
+                    content: ":";
+                }
+            }
+
+            input,
+            textarea,
+            select,
+            button {
+                @extend .t-body-2;
+            }
+
+            input[type="submit"] {
+                &:focus {
+                    outline: 0;
+                    outline-color: transparent;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Misc                                                                    */
+
+            .off-screen {
+                position: absolute;
+                left: -99999px;
+                text-indent: -99999px;
+            }
+
+            .clear {
+                display: block;
+                overflow: hidden;
+            }
+
+            .hidden {
+                display: none;
+            }
+
+        /*----------------------------------------------------------------------------
+        /*  Content                                                                 */
+
+
