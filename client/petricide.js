@@ -60,9 +60,6 @@ Template.app.helpers({
     var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
     if (updates.length > 0) {
       _.each(updates, function (elem) {
-        console.log(elem);
-        console.log('another player has clicked ' + elem.user.color);
-        console.log(nodes[elem.clicks[0]][elem.clicks[1]]);
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
