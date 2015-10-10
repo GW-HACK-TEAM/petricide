@@ -45,7 +45,11 @@ Template.app.helpers({
 Template.app.events({
   'click #canvas': function (e) {
 
-    var click = [33, 44];
+    var canvas = document.getElementById("canvas");
+    var x = e.originalEvent.x - canvas.offsetLeft;
+    var y = e.originalEvent.y - canvas.offsetTop;
+
+    var click = [x, y];
     addToPayload(click);
     console.log(getPayload());
   }
