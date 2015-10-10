@@ -179,17 +179,24 @@ Template.app.onRendered(function(){
     node.clickEffect = function(myColor) {
       var  val = 60;
       if ( node.active && node.color !== myColor ) {
-        node.changeHealth(0 - val);
+        val = 0 - val;
+        node.changeHealth(val);
       } else if ( !node.active ) {
         node.activate(myColor);
         node.playerActivated = true;
       } else if (node.active && node.color === myColor) {
         node.changeHealth(60);
         node.age = 0;
+        node.neighbours().forEach(function(item) {
+          if ( item.active && item.color === myColor ) {
+            item.changeHealth(val * 0.6);
+            item.age = 0;
+          }
+        });
       }
       node.neighbours().forEach(function(item) {
         if ( item.active && item.color !== myColor ) {
-          item.changeHealth(0 - val);
+          item.changeHealth(val);
         }
       });
     };
