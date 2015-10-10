@@ -7,8 +7,20 @@ Meteor.startup(function () {
   console.log('#   #');
   console.log('############################################');
   GameData.remove({});
-  GameData.insert({sampledata:'sampletestdata'});
-  Meteor.setInterval(function(){
-    //console.log('test');
-  }, 1000);
+  PlayerSlots.remove({});
+
+  var colors = [
+    '#49daf4',
+    '#a864a8',
+    '#f7941d',
+    '#00a99d',
+    '#fa504d'
+  ];
+  var i = 0;
+  _.each(colors, function (elem) {
+    PlayerSlots.insert({
+      id: i++,
+      color: elem
+    });
+  });
 });

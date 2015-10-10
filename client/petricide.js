@@ -1,17 +1,6 @@
-var payload = false;
-var payloadDep = new Tracker.Dependency;
-
-var getPayload = function () {
-  payloadDep.depend();
-  return payload;
-};
-var addToPayload = function (data) {
-  payload = data;
-  payloadDep.changed();
-};
-
 var user = false;
 var userDep = new Tracker.Dependency;
+nodes = [];
 
 var getUser = function () {
   userDep.depend();
@@ -23,14 +12,36 @@ var setUser = function (dets) {
 };
 
 
+var gridWidth = 1000;
+var gridHeight = 1000;
+var size = 10;
+
+var cellLifecycle = 120;
+
+function getPosition(event) {
+  var x = event.x;
+  var y = event.y;
+
+  var windowWidth = $(window).width();
+  var heightWidth = $(window).height();
+
+  x -= canvas.offsetLeft;
+  y -= canvas.offsetTop;
+
+  // Find out the scaled X and Y coordinates
+  var scaledX = x * (gridWidth / $('#canvas').width());
+  var scaledY = y * (gridHeight / $('#canvas').height());
+
+  var contextX = Math.floor(scaledX / size);
+  var contextY = Math.floor(scaledY / size);
+
+  nodes[contextX][contextY].clickEffect(playerColor);
+}
+
 /**
  * Helpers
  */
 Template.app.helpers({
-  getGameData: function () {
-    ReactiveMethod.call('testMethod', getPayload());
-  }
-  ,
   user: function () {
     var response;
     if (!getUser()) {
@@ -45,11 +56,13 @@ Template.app.helpers({
   getUserDets:function(){
     return getUser();
   },
-  reRender:function(){
-    var updates = GameData.find({}).fetch();
-    console.log(updates);
-    if(updates){
-      _.each(updates, function(elem){
+  reRender:function() {
+    var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
+    if (updates.length > 0) {
+      _.each(updates, function (elem) {
+        console.log(elem);
+        console.log('another player has clicked ' + elem.user.color);
+        console.log(nodes[elem.clicks[0]][elem.clicks[1]]);
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
@@ -66,10 +79,16 @@ Template.app.events({
     var x = e.originalEvent.x - canvas.offsetLeft;
     var y = e.originalEvent.y - canvas.offsetTop;
 
-    var click = [x, y];
+    // Find out the scaled X and Y coordinates
+    var scaledX = x * (gridWidth / $('#canvas').width());
+    var scaledY = y * (gridHeight / $('#canvas').height());
+
+    var contextX = Math.floor(scaledX / size);
+    var contextY = Math.floor(scaledY / size);
+
+    var click = [contextX, contextY];
     var event = {clicks: click, user:getUser(), timestamp:Date.now()};
-    addToPayload(event);
-    //console.log(getPayload());
+    Meteor.call('addEvent', event);
   }
 });
 
@@ -99,28 +118,28 @@ Template.app.onRendered(function () {
    * @param {number} windowHeight
    */
   function scaleCanvas(windowWidth, windowHeight) {
+    var size = 0;
+    var headerHeight = $('.header').outerHeight();
 
     // Logic determined by the biggest width or height
-    if (windowWidth > windowHeight) {
-      $('#canvas').width(windowHeight);
-      $('#canvas').height(windowHeight);
+    if (windowWidth >= windowHeight - headerHeight) {
+      size = windowHeight - headerHeight;
     } else {
-      $('#canvas').width(windowWidth);
-      $('#canvas').height(windowWidth);
+      size = windowWidth;
     }
+
+    // Update the canvas size
+    $('#canvas').width(size);
+    $('#canvas').height(size);
+
+    // Update the confines wrappers width
+    $('.confines-wrapper').width(size);
   }
 
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   window.ctx = ctx;
 
-  nodes = [];
-
-  var gridWidth = 1000;
-  var gridHeight = 1000;
-  var size = 10;
-
-  var cellLifecycle = 120;
 
   var i;
   var j;
@@ -201,14 +220,14 @@ Template.app.onRendered(function () {
     '#fa504d'
   ];
 
-  setInterval(function aiCycle() {
-    var color = colors[Math.round(Math.random() * colors.length - 1)]
-    if (running) {
-      rand1 = Math.round(Math.random() * gridWidth / size);
-      rand2 = Math.round(Math.random() * gridHeight / size);
-      nodes[rand1][rand2].clickEffect(color);
-    }
-  }, 50);
+  //setInterval(function aiCycle() {
+  //  var color = colors[Math.round(Math.random() * colors.length - 1)]
+  //  if (running) {
+  //    rand1 = Math.round(Math.random() * gridWidth / size);
+  //    rand2 = Math.round(Math.random() * gridHeight / size);
+  //    nodes[rand1][rand2].clickEffect(color);
+  //  }
+  //}, 50);
 
   setInterval(function() {
     if ( window.running ) {
