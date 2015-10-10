@@ -49,8 +49,6 @@ Template.body.helpers({
       response = ReactiveMethod.call('newUser');
       if (response && response.validPlayer) {
         return Session.set('user', response);
-      } else {
-        Router.go('nope');
       }
     } else {
       return Session.get('user');
