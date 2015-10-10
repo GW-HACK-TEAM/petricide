@@ -143,7 +143,19 @@ Template.app.onRendered(function(){
           node.activate(activeColor);
         }
       }
+      if ( node.active && activeNeighBours.length >= 7 ) {
+        var count = 0;
+        activeNeighBours.forEach(function(cell) {
+          if ( cell.color !== node.color ) {
+            count++;
+          }
+        });
+        if ( count >= 7 ) {
+          node.kill();
+        }
+      }
     };
+
     node.cachedNeighbours = [];
     node.neighbours = function() {
       if ( node.cachedNeighbours.length ) {
