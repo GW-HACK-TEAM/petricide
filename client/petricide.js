@@ -120,7 +120,7 @@ Template.app.onRendered(function () {
   canvas.width = gridWidth;
   canvas.height = gridHeight;
 
-  var playerColor = 'red';
+  var playerColor = '#fa504d';
 
 
 
@@ -183,7 +183,14 @@ Template.app.onRendered(function () {
 
   var rand1;
   var rand2;
-  var colors = ['green', 'red', 'blue', 'purple', 'pink', 'orange'];
+  var colors = [
+    '#49daf4',
+    '#a864a8',
+    '#f7941d',
+    '#00a99d',
+    '#fa504d'
+  ];
+
   setInterval(function aiCycle() {
     var color = colors[Math.round(Math.random() * colors.length - 1)]
     if (running) {
@@ -201,41 +208,36 @@ Template.app.onRendered(function () {
 
   // Activate starting points.
 
-  nodes[44][24].activate('blue');
-  nodes[44][26].activate('blue');
-  nodes[45][25].activate('blue');
-  nodes[46][24].activate('blue');
-  nodes[46][26].activate('blue');
+  nodes[44][24].activate('#49daf4');
+  nodes[44][26].activate('#49daf4');
+  nodes[45][25].activate('#49daf4');
+  nodes[46][24].activate('#49daf4');
+  nodes[46][26].activate('#49daf4');
 
-  nodes[34][44].activate('red');
-  nodes[34][46].activate('red');
-  nodes[35][45].activate('red');
-  nodes[36][44].activate('red');
-  nodes[36][46].activate('red');
+  nodes[34][44].activate('#a864a8');
+  nodes[34][46].activate('#a864a8');
+  nodes[35][45].activate('#a864a8');
+  nodes[36][44].activate('#a864a8');
+  nodes[36][46].activate('#a864a8');
 
-  nodes[19][19].activate('green');
-  nodes[19][21].activate('green');
-  nodes[20][20].activate('green');
-  nodes[21][19].activate('green');
-  nodes[21][21].activate('green');
+  nodes[19][19].activate('#f7941d');
+  nodes[19][21].activate('#f7941d');
+  nodes[20][20].activate('#f7941d');
+  nodes[21][19].activate('#f7941d');
+  nodes[21][21].activate('#f7941d');
 
-  nodes[17][39].activate('purple');
-  nodes[17][41].activate('purple');
-  nodes[18][40].activate('purple');
-  nodes[19][39].activate('purple');
-  nodes[19][41].activate('purple');
+  nodes[17][39].activate('#00a99d');
+  nodes[17][41].activate('#00a99d');
+  nodes[18][40].activate('#00a99d');
+  nodes[19][39].activate('#00a99d');
+  nodes[19][41].activate('#00a99d');
 
-  nodes[39][39].activate('pink');
-  nodes[39][41].activate('pink');
-  nodes[40][40].activate('pink');
-  nodes[41][39].activate('pink');
-  nodes[41][41].activate('pink');
+  nodes[39][39].activate('#fa504d');
+  nodes[39][41].activate('#fa504d');
+  nodes[40][40].activate('#fa504d');
+  nodes[41][39].activate('#fa504d');
+  nodes[41][41].activate('#fa504d');
 
-  nodes[39][0].activate('orange');
-  nodes[39][2].activate('orange');
-  nodes[40][2].activate('orange');
-  nodes[41][0].activate('orange');
-  nodes[41][1].activate('orange');
 });
 
 
