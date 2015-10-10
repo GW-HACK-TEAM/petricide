@@ -9,8 +9,6 @@
 </body>
 
 <template name="app">
-  {{#with getGameData}}
-    {{sampledata}}
-  {{/with}}
+  {{getGameData.sampledata}}
   <canvas id="canvas" width="500" height="500"></canvas>
 </template>

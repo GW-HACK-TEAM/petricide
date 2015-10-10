@@ -1,8 +1,6 @@
 Template.app.helpers({
   getGameData:function(){
-    var test = ReactiveMethod.call('testMethod', Session.get('trigger'));
-    console.log(test);
-    return test;
+    return _.first(ReactiveMethod.call('testMethod', Session.get('trigger')));
   }
 });
 
@@ -269,7 +267,4 @@ Template.app.onRendered(function(){
       cycle();
     }
   }, 1000/60);
-
-
-
 });
