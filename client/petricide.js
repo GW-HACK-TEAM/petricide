@@ -231,10 +231,10 @@ function cycle() {
 var mousex;
 var mousey;
 
-canvas.addEventListener("mousedown", getPosition, false);
-canvas.addEventListener("mousemove", setMouse, false);
+canvas.addEventListener('mousedown', getPosition, false);
+canvas.addEventListener('mousemove', setMouse, false);
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener('keydown', function(e) {
   if ( e.keyCode === 32 ) {
     getPosition({
       x: mousex,
@@ -263,21 +263,6 @@ function getPosition(event) {
   nodes[contextX][contextY].clickEffect(playerColor);
 }
 
-var rand1;
-var rand2;
-/*
-setInterval( function aiCycle() {
-  if ( running ) {
-    rand1 = Math.round(Math.random() * gridWidth/size);
-    rand2 = Math.round(Math.random() * gridHeight/size);
-    nodes[rand1][rand2].clickEffect('blue');
-
-    rand1 = Math.round(Math.random() * gridWidth/size);
-    rand2 = Math.round(Math.random() * gridHeight/size);
-    nodes[rand1][rand2].clickEffect('green');
-  }
-}, 1000);
-*/
 
 setInterval(function() {
   if ( running ) {
