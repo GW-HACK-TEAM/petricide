@@ -9,7 +9,6 @@ Meteor.methods({
     }
   },
   newUser: function(){
-    //TODO logic to test availability
     var slots = PlayerSlots.find({}).fetch();
     console.log(slots);
     if(slots.length > 0){
@@ -21,6 +20,8 @@ Meteor.methods({
       };
       PlayerSlots.remove({_id:select._id});
       return response;
+    } else {
+      //Router.go('nope');
     }
   }
 });

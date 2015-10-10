@@ -8,16 +8,19 @@ Meteor.startup(function () {
   console.log('############################################');
   GameData.remove({});
   PlayerSlots.remove({});
-  PlayerSlots.insert({
-    id:1,
-    color:'green'
-  });
-  PlayerSlots.insert({
-    id:1,
-    color:'red'
-  });
-  PlayerSlots.insert({
-    id:1,
-    color:'blue'
+
+  var colors = [
+    '#49daf4',
+    '#a864a8',
+    '#f7941d',
+    '#00a99d',
+    '#fa504d'
+  ];
+  var i = 0;
+  _.each(colors, function (elem) {
+    PlayerSlots.insert({
+      id: i++,
+      color: elem
+    });
   });
 });
