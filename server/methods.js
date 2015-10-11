@@ -66,9 +66,9 @@ var Canvas = Meteor.npmRequire('canvas');
 
 var nodes = [];
 
-var gridWidth = 1000;
-var gridHeight = 1000;
-var size = 10;
+var gridWidth = 100;
+var gridHeight = 100;
+var size = 1;
 var cellLifecycle = 120;
 
 var canvas = new Canvas(gridWidth, gridHeight);
@@ -227,7 +227,7 @@ Meteor.setInterval(function() {
   cycle();
  // console.log(snapShot());
   Meteor.call('addSnapshot', snapShot('white'));
-}, 1000/20);
+}, 1000/30);
 
 var restartFrequency = 1000 * 60 * 5;
 setTimeout(function(){

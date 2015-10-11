@@ -1,6 +1,6 @@
-var gridWidth = 1000;
-var gridHeight = 1000;
-var size = 10;
+var gridWidth = 100;
+var gridHeight = 100;
+var size = 1;
 
 nodes = [];
 
