@@ -1,4 +1,15 @@
 /*
+ * Checks if the current route session is set to the given route
+ *
+ * @param {string} routeName
+ * @return {boolean}
+ */
+currentRoute = function(routeName) {
+  return Session.get('currentRoute') == routeName;
+};
+
+
+/*
  * Coverts a hex code colour to it's human readable name
  *
  * @param {string} colour
