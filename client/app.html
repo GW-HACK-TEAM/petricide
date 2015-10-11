@@ -1,45 +1,30 @@
-<head>
-  <title>Petricide</title>
-
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-</head>
-
-<body>
-<div class="platform-container">
-  {{>header}}
-
-  {{#if user}}
-    {{#if allready}}
-      {{> app}}
-    {{else}}
-      {{> waiting}}
-    {{/if}}
-  {{else}}
-    <h1>We've run out of spots for you to play :(</h1>
-  {{/if}}
-</div>
-</body>
-
 <template name="app">
-  <canvas id="canvas" class="canvas"></canvas>
+  <div class="platform-container">
+    {{> header}}
 
-  {{reRender}}
-  {{addSnap}}
+    {{#if user}}
+      {{#if allready}}
+        {{> canvas}}
+      {{else}}
+        {{> waiting}}
+      {{/if}}
+    {{else}}
+      <h1>We've run out of spots for you to play :(</h1>
+    {{/if}}
+  </div>
 </template>
 
 <template name="header">
   <header class="header">
-    <div class="logo">
+    <div class="logo-container">
       <div class="confines-wrapper">
-        <a href="/">
+        <a class="logo" href="/">
           <img class="full" src="/images/logo.png" alt="Petricide logo" />
         </a>
+
+        <p class="about">
+          <a href="/about">About</a>
+        </p>
       </div>
     </div>
 
@@ -53,4 +38,11 @@
       </div>
     </div>
   </header>
+</template>
+
+<template name="canvas">
+  <canvas id="canvas" class="canvas"></canvas>
+
+  {{reRender}}
+  {{addSnap}}
 </template>

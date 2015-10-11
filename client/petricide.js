@@ -28,7 +28,7 @@ function getPosition(event) {
 /**
  * Helpers
  */
-Template.app.helpers({
+Template.canvas.helpers({
   getUserDets:function(){
     return Session.get('user');
   },
@@ -62,7 +62,7 @@ Template.app.helpers({
   }
 });
 
-Template.body.helpers({
+Template.app.helpers({
   user: function () {
     var response;
     if (!Session.get('user')) {
@@ -87,7 +87,7 @@ Template.body.helpers({
 /**
  * Events
  */
-Template.app.events({
+Template.canvas.events({
   'click #canvas': function (e) {
     var canvas = document.getElementById("canvas");
     var x = e.originalEvent.x - canvas.offsetLeft;
@@ -113,46 +113,7 @@ Template.app.events({
 /**
  * On render
  */
-Template.app.onRendered(function () {
-
-  // Scale the canvas to make it fit inside the browser
-  scaleCanvas($(window).width(), $(window).height());
-
-
-  $(window).resize(function() {
-    var windowWidth = $(window).width();
-    var windowHeight = $(window).height();
-
-    // Scale the canvas to make it fit inside the browser
-    scaleCanvas(windowWidth, windowHeight);
-  });
-
-
-  /**
-   * Scale the canvas to make it fit inside the browser
-   *
-   * @param {number} windowWidth
-   * @param {number} windowHeight
-   */
-  function scaleCanvas(windowWidth, windowHeight) {
-    var size = 0;
-    var headerHeight = $('.header').outerHeight();
-
-    // Logic determined by the biggest width or height
-    if (windowWidth >= windowHeight - headerHeight) {
-      size = windowHeight - headerHeight;
-    } else {
-      size = windowWidth;
-    }
-
-    // Update the canvas size
-    $('#canvas').width(size);
-    $('#canvas').height(size);
-
-    // Update the confines wrappers width
-    $('.confines-wrapper').width(size);
-  }
-
+Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   window.ctx = ctx;
@@ -315,3 +276,46 @@ Template.app.onRendered(function () {
 });
 
 
+/**
+ * On render
+ */
+Template.header.onRendered(function () {
+
+  // Scale the canvas to make it fit inside the browser
+  scaleCanvas($(window).width(), $(window).height());
+
+
+  $(window).resize(function() {
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+
+    // Scale the canvas to make it fit inside the browser
+    scaleCanvas(windowWidth, windowHeight);
+  });
+
+
+  /**
+   * Scale the canvas to make it fit inside the browser
+   *
+   * @param {number} windowWidth
+   * @param {number} windowHeight
+   */
+  function scaleCanvas(windowWidth, windowHeight) {
+    var size = 0;
+    var headerHeight = $('.header').outerHeight();
+
+    // Logic determined by the biggest width or height
+    if (windowWidth >= windowHeight - headerHeight) {
+      size = windowHeight - headerHeight;
+    } else {
+      size = windowWidth;
+    }
+
+    // Update the canvas size
+    $('#canvas').width(size);
+    $('#canvas').height(size);
+
+    // Update the confines wrappers width
+    $('.confines-wrapper').outerWidth(size);
+  }
+});
