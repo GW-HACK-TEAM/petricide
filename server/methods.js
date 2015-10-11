@@ -10,7 +10,6 @@ Meteor.methods({
   },
   newUser: function(){
     var slots = PlayerSlots.find({}).fetch();
-    console.log(slots);
     if(slots.length > 0){
       var select = _.first(slots);
       var response = {
@@ -21,7 +20,36 @@ Meteor.methods({
       PlayerSlots.remove({_id:select._id});
       return response;
     } else {
-      //Router.go('nope');
+      return false;
     }
+  },
+  readyCheck:function(){
+    var slots = PlayerSlots.find({}).fetch();
+    console.log(slots);
+    if(slots.length < 4){
+      return true;
+    } else {
+      return false;
+    }
+  },
+  reset:function(){
+    console.log('resetting');
+    GameData.remove({});
+    PlayerSlots.remove({});
+
+    var colors = [
+      '#49daf4',
+      '#a864a8',
+      '#f7941d',
+      '#00a99d',
+      '#fa504d'
+    ];
+    var i = 0;
+    _.each(colors, function (elem) {
+      PlayerSlots.insert({
+        id: i++,
+        color: elem
+      });
+    });
   }
 });

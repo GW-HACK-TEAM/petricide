@@ -1,23 +1,10 @@
-var user = false;
-var userDep = new Tracker.Dependency;
-nodes = [];
-
-var getUser = function () {
-  userDep.depend();
-  return user;
-};
-var setUser = function (dets) {
-  user = dets;
-  userDep.changed();
-};
-
-
 var gridWidth = 1000;
 var gridHeight = 1000;
 var size = 10;
 
-var cellLifecycle = 120;
+nodes = [];
 
+var cellLifecycle = 120;
 function getPosition(event) {
   var x = event.x;
   var y = event.y;
@@ -42,33 +29,40 @@ function getPosition(event) {
  * Helpers
  */
 Template.app.helpers({
-  user: function () {
-    var response;
-    if (!getUser()) {
-      response = ReactiveMethod.call('newUser');
-      if (response && response.validPlayer) {
-        setUser(response);
-      }
-    } else {
-      return getUser();
-    }
-  },
   getUserDets:function(){
-    return getUser();
+    return Session.get('user');
   },
   reRender:function() {
-    var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
+    var updates = GameData.find({userid: {$ne: Session.get('user').id}}).fetch();
     if (updates.length > 0) {
       _.each(updates, function (elem) {
-        console.log(elem);
-        console.log('another player has clicked ' + elem.user.color);
-        console.log(nodes[elem.clicks[0]][elem.clicks[1]]);
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
   }
 });
 
+Template.body.helpers({
+  user: function () {
+    var response;
+    if (!Session.get('user')) {
+      response = ReactiveMethod.call('newUser');
+      if (response && response.validPlayer) {
+        return Session.set('user', response);
+      }
+    } else {
+      return Session.get('user');
+    }
+  },
+  allready:function(){
+    var check = PlayerSlots.find({}).fetch();
+    if(check.length < 4){
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
 
 /**
  * Events
@@ -87,8 +81,11 @@ Template.app.events({
     var contextY = Math.floor(scaledY / size);
 
     var click = [contextX, contextY];
-    var event = {clicks: click, user:getUser(), timestamp:Date.now()};
+    var event = {clicks: click, user:Session.get('user'), timestamp:Date.now()};
     Meteor.call('addEvent', event);
+  },
+  'click #reset':function(){
+    Meteor.call('reset');
   }
 });
 
