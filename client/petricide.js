@@ -39,6 +39,26 @@ Template.app.helpers({
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
+  },
+  addSnap: function() {
+    var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+    var snap = _.first(snaps);
+    //console.log(snap);
+    if ( snap && snap.shot ) {
+      var canvas = document.getElementById('canvas');
+      if ( canvas ) {
+        var context = canvas.getContext('2d');
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // load image from data url
+        var imageObj = new Image();
+        imageObj.onload = function() {
+          context.drawImage(imageObj, 0, 0);
+        };
+
+        imageObj.src = snap.shot;
+      }
+    }
   }
 });
 
@@ -170,8 +190,6 @@ Template.app.onRendered(function () {
   var mousex;
   var mousey;
 
-  canvas.addEventListener('click', getPosition, false);
-  canvas.addEventListener('mousemove', setMouse, false);
 
   document.addEventListener('keydown', function(e) {
     if ( e.keyCode === 32 ) {
@@ -226,6 +244,7 @@ Template.app.onRendered(function () {
   //  }
   //}, 50);
 
+  /*
   setInterval(function() {
     if ( window.running ) {
       cycle();
@@ -291,6 +310,7 @@ Template.app.onRendered(function () {
   //  0,169,157
   //  250,80,77
   console.log(colorVariations.length);
+  */
 
 });
 
