@@ -71,7 +71,7 @@ var gridHeight = 1000;
 var size = 10;
 var cellLifecycle = 120;
 
-var canvas = new Canvas(1000, 1000);
+var canvas = new Canvas(gridWidth, gridHeight);
 var ctx = canvas.getContext("2d");
 
 
@@ -177,15 +177,14 @@ nodes[40][40].activate('#fa504d');
 nodes[41][39].activate('#fa504d');
 nodes[41][41].activate('#fa504d');
 
-/*
-var snapShot = function() {
+var snappleShot = function() {
   return canvas.toDataURL();
 };
-*/
 var snapShot = function canvasToImage(backgroundColor) {
   //cache height and width
   var w = canvas.width;
   var h = canvas.height;
+  var compositeOperation;
 
   var data;
 
@@ -194,7 +193,7 @@ var snapShot = function canvasToImage(backgroundColor) {
     data = ctx.getImageData(0, 0, w, h);
 
     //store the current globalCompositeOperation
-    var compositeOperation = ctx.globalCompositeOperation;
+    compositeOperation = ctx.globalCompositeOperation;
 
     //set to draw behind current content
     ctx.globalCompositeOperation = "destination-over";
