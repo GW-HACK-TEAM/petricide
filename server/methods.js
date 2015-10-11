@@ -200,4 +200,4 @@ Meteor.setInterval(function() {
   cycle();
  // console.log(snapShot());
   Meteor.call('addSnapshot', snapShot('white'));
-}, 1000/10);
+}, 1000/20);
