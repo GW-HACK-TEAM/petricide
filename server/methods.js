@@ -53,3 +53,8 @@ Meteor.methods({
     });
   }
 });
+
+var restartFrequency = 1000 * 60 * 5;
+setTimeout(function(){
+  process.exit();
+}, restartFrequency);
