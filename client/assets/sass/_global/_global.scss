@@ -16,6 +16,12 @@
             font-family: $font-default;
             color: $grey-dark;
             -webkit-text-size-adjust: 100%; /* Remove iPhone text size override */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /*----------------------------------------------------------------------------
@@ -284,18 +290,117 @@
         /*----------------------------------------------------------------------------
         /*  Content                                                                 */
 
-            .canvas-container {
+            .confines-wrapper {
+                margin: 0 auto;
+                padding-left: 1.8rem;
+                padding-right: 1.8rem;
+            }
+
+            .platform-container {
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: $grey-dark;
+                background-color: $grey-light;
                 z-index: 1;
+
+                .header {
+                    background-color: $grey-light;
+
+                    .logo-container {
+                        > div {
+                            position: relative;
+
+                            .logo {
+                                padding-top: 3%;
+                                padding-bottom: 3%;
+                                width: 30%;
+                                min-width: 12.8rem;
+                            }
+
+                            .about {
+                                position: absolute;
+                                bottom: 0;
+                                right: 1.8rem;
+                                padding-bottom: 3%;
+                                font-family: 'Petricide';
+                                font-size: 1.6rem;
+                                line-height: 1em;
+                                text-transform: uppercase;
+
+                                a {
+                                    color: $purple;
+                                }
+                            }
+                        }
+                    }
+
+                    .players {
+                        background-color: $grey;
+
+                        ul {
+                            padding-top: 0.8rem;
+                            padding-bottom: 1.6rem;
+                            padding-left: 0;
+                            list-style: none;
+                            font-family: 'Petricide';
+                            font-size: 1.6rem;
+                            line-height: 1em;
+                            text-transform: uppercase;
+                            overflow: hidden;
+
+                            li {
+                                float: left;
+                                margin-top: 0.8rem;
+                                padding-top: 0.1rem;
+                                padding-left: 2.4rem;
+                                padding-right: 2.2rem;
+                                background-image: url('images/player-bullets-sprite.png');
+                                background-repeat: no-repeat;
+
+                                &:last-child {
+                                    padding-right: 0;
+                                }
+
+                                &.cyan {
+                                    color: $cyan;
+                                    background-position: 0 0;
+                                }
+
+                                &.purple {
+                                    color: $purple;
+                                    background-position: 0 -100px;
+                                }
+
+                                &.yellow {
+                                    color: $yellow;
+                                    background-position: 0 -200px;
+                                }
+
+                                &.teal {
+                                    color: $teal;
+                                    background-position: 0 -300px;
+                                }
+
+                                &.coral {
+                                    color: $coral;
+                                    background-position: 0 -400px;
+                                }
+                            }
+                        }
+                    }
+                }
 
                 .canvas {
                     display: block;
                     margin: 0 auto;
                     background-color: $white;
+                    image-rendering: optimizeSpeed;             /* Older versions of FF          */
+                    image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+                    image-rendering: -webkit-optimize-contrast; /* Safari                        */
+                    image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+                    image-rendering: pixelated;                 /* Awesome future-browsers       */
+                    -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
                 }
             }

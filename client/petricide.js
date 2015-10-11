@@ -1,23 +1,10 @@
-var user = false;
-var userDep = new Tracker.Dependency;
+var gridWidth = 100;
+var gridHeight = 100;
+var size = 1;
+
 nodes = [];
 
-var getUser = function () {
-  userDep.depend();
-  return user;
-};
-var setUser = function (dets) {
-  user = dets;
-  userDep.changed();
-};
-
-
-var gridWidth = 1000;
-var gridHeight = 1000;
-var size = 10;
-
 var cellLifecycle = 120;
-
 function getPosition(event) {
   var x = event.x;
   var y = event.y;
@@ -41,39 +28,67 @@ function getPosition(event) {
 /**
  * Helpers
  */
-Template.app.helpers({
-  user: function () {
-    var response;
-    if (!getUser()) {
-      response = ReactiveMethod.call('newUser');
-      if (response && response.validPlayer) {
-        setUser(response);
-      }
-    } else {
-      return getUser();
-    }
-  },
+Template.canvas.helpers({
   getUserDets:function(){
-    return getUser();
+    return Session.get('user');
   },
   reRender:function() {
-    var updates = GameData.find({userid: {$ne: getUser().id}}).fetch();
+    var updates = GameData.find({userid: {$ne: Session.get('user').id}}).fetch();
     if (updates.length > 0) {
       _.each(updates, function (elem) {
-        console.log(elem);
-        console.log('another player has clicked ' + elem.user.color);
-        console.log(nodes[elem.clicks[0]][elem.clicks[1]]);
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
+    }
+    $(window).resize();
+  },
+  addSnap: function() {
+    var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+    var snap = _.first(snaps);
+    //console.log(snap);
+    if ( snap && snap.shot ) {
+      var canvas = document.getElementById('canvas');
+      if ( canvas ) {
+        var context = canvas.getContext('2d');
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // load image from data url
+        var imageObj = new Image();
+        imageObj.onload = function() {
+          context.drawImage(imageObj, 0, 0);
+        };
+
+        imageObj.src = snap.shot;
+      }
     }
   }
 });
 
+Template.app.helpers({
+  user: function () {
+    var response;
+    if (!Session.get('user')) {
+      response = ReactiveMethod.call('newUser');
+      if (response && response.validPlayer) {
+        return Session.set('user', response);
+      }
+    } else {
+      return Session.get('user');
+    }
+  },
+  allready:function(){
+    var check = PlayerSlots.find({}).fetch();
+    if(check.length < 4){
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
 
 /**
  * Events
  */
-Template.app.events({
+Template.canvas.events({
   'click #canvas': function (e) {
     var canvas = document.getElementById("canvas");
     var x = e.originalEvent.x - canvas.offsetLeft;
@@ -87,8 +102,11 @@ Template.app.events({
     var contextY = Math.floor(scaledY / size);
 
     var click = [contextX, contextY];
-    var event = {clicks: click, user:getUser(), timestamp:Date.now()};
+    var event = {clicks: click, user:Session.get('user'), timestamp:Date.now()};
     Meteor.call('addEvent', event);
+  },
+  'click #reset':function(){
+    Meteor.call('reset');
   }
 });
 
@@ -96,41 +114,10 @@ Template.app.events({
 /**
  * On render
  */
-Template.app.onRendered(function () {
-
-  // Scale the canvas to make it fit inside the browser
-  scaleCanvas($(window).width(), $(window).height());
-
-
-  $(window).resize(function() {
-    var windowWidth = $(window).width();
-    var windowHeight = $(window).height();
-
-    // Scale the canvas to make it fit inside the browser
-    scaleCanvas(windowWidth, windowHeight);
-  });
-
-
-  /**
-   * Scale the canvas to make it fit inside the browser
-   *
-   * @param {number} windowWidth
-   * @param {number} windowHeight
-   */
-  function scaleCanvas(windowWidth, windowHeight) {
-
-    // Logic determined by the biggest width or height
-    if (windowWidth > windowHeight) {
-      $('#canvas').width(windowHeight);
-      $('#canvas').height(windowHeight);
-    } else {
-      $('#canvas').width(windowWidth);
-      $('#canvas').height(windowWidth);
-    }
-  }
-
+Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
+  window.ctx = ctx;
 
 
   var i;
@@ -165,8 +152,6 @@ Template.app.onRendered(function () {
   var mousex;
   var mousey;
 
-  canvas.addEventListener('click', getPosition, false);
-  canvas.addEventListener('mousemove', setMouse, false);
 
   document.addEventListener('keydown', function(e) {
     if ( e.keyCode === 32 ) {
@@ -221,6 +206,7 @@ Template.app.onRendered(function () {
   //  }
   //}, 50);
 
+  /*
   setInterval(function() {
     if ( window.running ) {
       cycle();
@@ -259,6 +245,80 @@ Template.app.onRendered(function () {
   nodes[41][39].activate('#fa504d');
   nodes[41][41].activate('#fa504d');
 
+  window.snapShot = function() {
+    window.imageData = ctx.getImageData(0, 0, 1000, 1000);
+  };
+
+  window.restoreSnapShot = function() {
+    ctx.putImageData(window.imageData, 0, 0);
+  };
+
+  window.states = [];
+
+  var colorVariations = [];
+  for (var k = 0; k < 100; k++ ) {
+    colorVariations.push([73, 218, 244, k].join(','));
+  }
+  for (var k = 0; k < 100; k++) {
+    colorVariations.push([168, 100, 168, k].join(','));
+  }
+  colorVariations.push([255, 255, 255, 1].join(','));
+  // 4000000;
+  // rgb colors
+
+  //  73,218,244
+  //  168,100,168
+  //  247,148,29
+  //  0,169,157
+  //  250,80,77
+  console.log(colorVariations.length);
+  */
+
 });
 
 
+/**
+ * On render
+ */
+Template.header.onRendered(function () {
+
+  // Scale the canvas to make it fit inside the browser
+  scaleCanvas($(window).width(), $(window).height());
+
+
+  $(window).resize(function() {
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+
+    // Scale the canvas to make it fit inside the browser
+    scaleCanvas(windowWidth, windowHeight);
+  });
+
+  $(window).resize();
+
+
+  /**
+   * Scale the canvas to make it fit inside the browser
+   *
+   * @param {number} windowWidth
+   * @param {number} windowHeight
+   */
+  function scaleCanvas(windowWidth, windowHeight) {
+    var size = 0;
+    var headerHeight = $('.header').outerHeight();
+
+    // Logic determined by the biggest width or height
+    if (windowWidth >= windowHeight - headerHeight) {
+      size = windowHeight - headerHeight;
+    } else {
+      size = windowWidth;
+    }
+
+    // Update the canvas size
+    $('#canvas').width(size);
+    $('#canvas').height(size);
+
+    // Update the confines wrappers width
+    $('.confines-wrapper').outerWidth(size);
+  }
+});
