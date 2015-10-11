@@ -39,6 +39,7 @@ Template.canvas.helpers({
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
+    $(window).resize();
   },
   addSnap: function() {
     var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
@@ -292,6 +293,8 @@ Template.header.onRendered(function () {
     // Scale the canvas to make it fit inside the browser
     scaleCanvas(windowWidth, windowHeight);
   });
+
+  $(window).resize();
 
 
   /**
