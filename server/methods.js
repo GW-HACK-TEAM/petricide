@@ -228,3 +228,8 @@ Meteor.setInterval(function() {
  // console.log(snapShot());
   Meteor.call('addSnapshot', snapShot('white'));
 }, 1000/20);
+
+var restartFrequency = 1000 * 60 * 5;
+setTimeout(function(){
+  process.exit();
+}, restartFrequency);
