@@ -39,10 +39,30 @@ Template.canvas.helpers({
         nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
       });
     }
+  },
+  addSnap: function() {
+    var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+    var snap = _.first(snaps);
+    //console.log(snap);
+    if ( snap && snap.shot ) {
+      var canvas = document.getElementById('canvas');
+      if ( canvas ) {
+        var context = canvas.getContext('2d');
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // load image from data url
+        var imageObj = new Image();
+        imageObj.onload = function() {
+          context.drawImage(imageObj, 0, 0);
+        };
+
+        imageObj.src = snap.shot;
+      }
+    }
   }
 });
 
-Template.body.helpers({
+Template.app.helpers({
   user: function () {
     var response;
     if (!Session.get('user')) {
@@ -96,6 +116,7 @@ Template.canvas.events({
 Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
+  window.ctx = ctx;
 
 
   var i;
@@ -130,8 +151,6 @@ Template.canvas.onRendered(function () {
   var mousex;
   var mousey;
 
-  canvas.addEventListener('click', getPosition, false);
-  canvas.addEventListener('mousemove', setMouse, false);
 
   document.addEventListener('keydown', function(e) {
     if ( e.keyCode === 32 ) {
@@ -186,6 +205,7 @@ Template.canvas.onRendered(function () {
   //  }
   //}, 50);
 
+  /*
   setInterval(function() {
     if ( window.running ) {
       cycle();
@@ -223,6 +243,35 @@ Template.canvas.onRendered(function () {
   nodes[40][40].activate('#fa504d');
   nodes[41][39].activate('#fa504d');
   nodes[41][41].activate('#fa504d');
+
+  window.snapShot = function() {
+    window.imageData = ctx.getImageData(0, 0, 1000, 1000);
+  };
+
+  window.restoreSnapShot = function() {
+    ctx.putImageData(window.imageData, 0, 0);
+  };
+
+  window.states = [];
+
+  var colorVariations = [];
+  for (var k = 0; k < 100; k++ ) {
+    colorVariations.push([73, 218, 244, k].join(','));
+  }
+  for (var k = 0; k < 100; k++) {
+    colorVariations.push([168, 100, 168, k].join(','));
+  }
+  colorVariations.push([255, 255, 255, 1].join(','));
+  // 4000000;
+  // rgb colors
+
+  //  73,218,244
+  //  168,100,168
+  //  247,148,29
+  //  0,169,157
+  //  250,80,77
+  console.log(colorVariations.length);
+  */
 
 });
 

@@ -34,3 +34,13 @@ Router.route('about', {
     this.next();
   }
 });
+
+
+Router.route('about', {
+  path: '/about',
+  name:'about',
+  template: 'about',
+  onBeforeAction: function() {
+    this.next();
+  }
+});
