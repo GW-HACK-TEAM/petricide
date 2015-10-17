@@ -4,26 +4,6 @@ var size = 1;
 
 nodes = [];
 
-var cellLifecycle = 120;
-function getPosition(event) {
-  var x = event.x;
-  var y = event.y;
-
-  var windowWidth = $(window).width();
-  var heightWidth = $(window).height();
-
-  x -= canvas.offsetLeft;
-  y -= canvas.offsetTop;
-
-  // Find out the scaled X and Y coordinates
-  var scaledX = x * (gridWidth / $('#canvas').width());
-  var scaledY = y * (gridHeight / $('#canvas').height());
-
-  var contextX = Math.floor(scaledX / size);
-  var contextY = Math.floor(scaledY / size);
-
-  nodes[contextX][contextY].clickEffect(playerColor);
-}
 
 /**
  * Helpers
@@ -139,142 +119,15 @@ Template.canvas.onRendered(function () {
     }
   });
 
-
-
-  var i;
-  var j;
-
   window.running = true;
 
   canvas.width = gridWidth;
   canvas.height = gridHeight;
 
-  var playerColor = '#fa504d';
-
-  var mousex;
-  var mousey;
-
-
   document.addEventListener('keydown', function(e) {
     if ( e.keyCode === 32 ) {
-      getPosition({
-        x: mousex,
-        y: mousey
-      });
     }
-  }, false);
-
-  function setMouse(e) {
-    mousex = e.pageX;
-    mousey = e.pageY;
-  }
-
-  function getPosition(event) {
-    var x = event.x;
-    var y = event.y;
-
-    var windowWidth = $(window).width();
-    var heightWidth = $(window).height();
-
-    x -= canvas.offsetLeft;
-    y -= canvas.offsetTop;
-
-    // Find out the scaled X and Y coordinates
-    var scaledX = x * (gridWidth / $('#canvas').width());
-    var scaledY = y * (gridHeight / $('#canvas').height());
-
-    var contextX = Math.floor(scaledX / size);
-    var contextY = Math.floor(scaledY / size);
-
-    nodes[contextX][contextY].clickEffect(playerColor);
-  }
-
-  var rand1;
-  var rand2;
-  var colors = [
-    '#49daf4',
-    '#a864a8',
-    '#f7941d',
-    '#00a99d',
-    '#fa504d'
-  ];
-
-  //setInterval(function aiCycle() {
-  //  var color = colors[Math.round(Math.random() * colors.length - 1)]
-  //  if (running) {
-  //    rand1 = Math.round(Math.random() * gridWidth / size);
-  //    rand2 = Math.round(Math.random() * gridHeight / size);
-  //    nodes[rand1][rand2].clickEffect(color);
-  //  }
-  //}, 50);
-
-  /*
-  setInterval(function() {
-    if ( window.running ) {
-      cycle();
-    }
-  }, 1000/60);
-
-  // Activate starting points.
-
-  nodes[44][24].activate('#49daf4');
-  nodes[44][26].activate('#49daf4');
-  nodes[45][25].activate('#49daf4');
-  nodes[46][24].activate('#49daf4');
-  nodes[46][26].activate('#49daf4');
-
-  nodes[34][44].activate('#a864a8');
-  nodes[34][46].activate('#a864a8');
-  nodes[35][45].activate('#a864a8');
-  nodes[36][44].activate('#a864a8');
-  nodes[36][46].activate('#a864a8');
-
-  nodes[19][19].activate('#f7941d');
-  nodes[19][21].activate('#f7941d');
-  nodes[20][20].activate('#f7941d');
-  nodes[21][19].activate('#f7941d');
-  nodes[21][21].activate('#f7941d');
-
-  nodes[17][39].activate('#00a99d');
-  nodes[17][41].activate('#00a99d');
-  nodes[18][40].activate('#00a99d');
-  nodes[19][39].activate('#00a99d');
-  nodes[19][41].activate('#00a99d');
-
-  nodes[39][39].activate('#fa504d');
-  nodes[39][41].activate('#fa504d');
-  nodes[40][40].activate('#fa504d');
-  nodes[41][39].activate('#fa504d');
-  nodes[41][41].activate('#fa504d');
-
-  window.snapShot = function() {
-    window.imageData = ctx.getImageData(0, 0, 1000, 1000);
-  };
-
-  window.restoreSnapShot = function() {
-    ctx.putImageData(window.imageData, 0, 0);
-  };
-
-  window.states = [];
-
-  var colorVariations = [];
-  for (var k = 0; k < 100; k++ ) {
-    colorVariations.push([73, 218, 244, k].join(','));
-  }
-  for (var k = 0; k < 100; k++) {
-    colorVariations.push([168, 100, 168, k].join(','));
-  }
-  colorVariations.push([255, 255, 255, 1].join(','));
-  // 4000000;
-  // rgb colors
-
-  //  73,218,244
-  //  168,100,168
-  //  247,148,29
-  //  0,169,157
-  //  250,80,77
-  console.log(colorVariations.length);
-  */
+  });
 
 });
 
