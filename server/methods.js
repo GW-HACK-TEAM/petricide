@@ -53,15 +53,6 @@ Meteor.methods({
       });
     });
   },
-  addSnapshot: function(snap) {
-    check(snap, String);
-
-    SnapShots.remove({});
-    SnapShots.insert({
-      shot: snap ,
-      stamp: Date.now()
-    });
-  },
   updateWorld: function(world) {
     check(world, Array);
 
