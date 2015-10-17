@@ -9,7 +9,6 @@ GameCell = function GameCell(i, j, ctx, size, cellLifecycle, nodes) {
   this.color = 'white';
   this.activeColor = this.color;
   this.active = false;
-  this.opacity = 1;
   this.age = 0;
   this.ctx = ctx;
   this.size = size;
@@ -26,8 +25,7 @@ GameCell.prototype.activate = function activate(color) {
 };
 
 GameCell.prototype.draw = function draw(color) {
-  this.ctx.globalAlpha = this.opacity;
-  this.ctx.fillStyle = color;
+  this.ctx.fillStyle = GameColorRanges[color][this.health];
   this.ctx.fillRect(this.lon * this.size, this.lat * this.size, this.size, this.size);
 };
 
@@ -40,7 +38,6 @@ GameCell.prototype.changeHealth = function changeHealth(val) {
     this.health = 0;
   }
 
-  this.opacity = this.health / 100;
   this.draw(this.color);
 
   if (this.health === 0) {
