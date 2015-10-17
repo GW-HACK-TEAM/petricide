@@ -11,38 +11,7 @@ nodes = [];
 Template.canvas.helpers({
   getUserDets:function(){
     return Session.get('user');
-  },
-  reRender:function() {
-    var updates = GameData.find({userid: {$ne: Session.get('user').id}}).fetch();
-    if (updates.length > 0) {
-      _.each(updates, function (elem) {
-        nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
-      });
-    }
-    $(window).resize();
-  },
-  /*
-  addSnap: function() {
-    var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
-    var snap = _.first(snaps);
-    //console.log(snap);
-    if ( snap && snap.shot ) {
-      var canvas = document.getElementById('canvas');
-      if ( canvas ) {
-        var context = canvas.getContext('2d');
-        //context.clearRect(0, 0, canvas.width, canvas.height);
-
-        // load image from data url
-        var imageObj = new Image();
-        imageObj.onload = function() {
-          context.drawImage(imageObj, 0, 0);
-        };
-
-        imageObj.src = snap.shot;
-      }
-    }
-  },
-  */
+  }
 });
 
 Template.app.helpers({
@@ -100,23 +69,48 @@ Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   var imageObj = new Image();
+  var lastServerUpdate = 0;
+  var lastUserInputFromServer = 0;
   window.ctx = ctx;
+  viewPort.setCanvas(canvas);
+  viewPort.setCtx(ctx);
+
+  $(window).resize();
 
   this.autorun(function() {
-    var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
-    var snap = _.first(snaps);
-    //console.log(snap);
-    if ( snap && snap.shot ) {
-      if ( canvas ) {
-        // load image from data url
-        //var imageObj = new Image();
-        imageObj.onload = function() {
-          ctx.drawImage(imageObj, 0, 0);
-        };
-
-        imageObj.src = snap.shot;
-      }
+    var updates = GameData.find({}, {sort: {stamp: 1}}, {limit: 10}).fetch();
+    if (updates.length > 0) {
+      console.log(updates);
+      _.each(updates, function (elem) {
+        if ( elem.stamp > lastUserInputFromServer ) {
+          nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
+          lastUserInputFromServer = elem.stamp;
+        }
+      });
     }
+
+    var worlds = WorldData.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+    var data = _.first(worlds);
+
+    var i = 0;
+    var j = 0;
+
+    console.log('recieved sync data');
+
+    if ( data && data.world && data.stamp > lastServerUpdate ) {
+      data.world.forEach(function(node) {
+        nodes[i][j].color = node.color;
+        nodes[i][j].active = node.active;
+        nodes[i][j].health = node.health;
+        nodes[i][j].age = node.age;
+        j++;
+        if ( j === 100 ) {
+          i++;
+          j = 0;
+        }
+      });
+    }
+
   });
 
   window.running = true;

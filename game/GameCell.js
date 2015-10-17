@@ -1,4 +1,4 @@
-GameCell = function GameCell(i, j, ctx, size, cellLifecycle, nodes) {
+GameCell = function GameCell(i, j, size, cellLifecycle, nodes) {
   this.activeNeighBours = [];
   this.counts = {};
   this.cellLifecycle = cellLifecycle;
@@ -7,10 +7,10 @@ GameCell = function GameCell(i, j, ctx, size, cellLifecycle, nodes) {
   this.lat = j;
   this.health = 0;
   this.color = 'white';
+  this.renderColor = 'white';
   this.activeColor = this.color;
   this.active = false;
   this.age = 0;
-  this.ctx = ctx;
   this.size = size;
   this.inactiveCount = 0;
 
@@ -26,8 +26,9 @@ GameCell.prototype.activate = function activate(color, startHealth) {
 };
 
 GameCell.prototype.draw = function draw(color) {
-  this.ctx.fillStyle = color === 'white' ? 'white' : GameColorRanges[color][this.health];
-  this.ctx.fillRect(this.lon * this.size, this.lat * this.size, this.size, this.size);
+  this.renderColor = color === 'white' ? 'white' : GameColorRanges[color][this.health];
+  //this.ctx.fillStyle = color === 'white' ? 'white' : GameColorRanges[color][this.health];
+  //this.ctx.fillRect(this.lon * this.size, this.lat * this.size, this.size, this.size);
 };
 
 GameCell.prototype.changeHealth = function changeHealth(val) {
@@ -99,14 +100,14 @@ GameCell.prototype.update = function update(cb) {
 
   if ( _self.inactiveCount > 0 ) {
     _self.inactiveCount--;
-    return cb();
+    return cb([this.renderColor, this.lon * this.size, this.lat * this.size, this.size, this.size]);
   }
   _self.activeNeighBours = _.filter(_self.neighbours(), function(item) {
     return item.active && item.health >= 25;
   });
 
   if (!_self.active && _self.activeNeighBours.length === 0) {
-    return cb();
+    return cb([this.renderColor, this.lon * this.size, this.lat * this.size, this.size, this.size]);
   }
 
   if ( !_self.active && _self.activeNeighBours.length >= 3 ) {
@@ -132,7 +133,7 @@ GameCell.prototype.update = function update(cb) {
     }
   }
 
-  cb();
+  cb([this.renderColor, this.lon * this.size, this.lat * this.size, this.size, this.size]);
 };
 
 GameCell.prototype.neighbours = function neighbours() {
