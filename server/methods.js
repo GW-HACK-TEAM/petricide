@@ -105,7 +105,8 @@ function cycle(cb) {
       cb();
     }
   };
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   for (i = 0; i < nodes.length; i++) {
     for (j = 0; j < nodes[i].length; j++) {
       nodes[i][j].update(updateCallback);
@@ -181,6 +182,7 @@ nodes[45][25].activate('#49daf4');
 nodes[46][24].activate('#49daf4');
 nodes[46][26].activate('#49daf4');
 
+/*
 nodes[34][44].activate('#a864a8');
 nodes[34][46].activate('#a864a8');
 nodes[35][45].activate('#a864a8');
@@ -204,6 +206,7 @@ nodes[39][41].activate('#fa504d');
 nodes[40][40].activate('#fa504d');
 nodes[41][39].activate('#fa504d');
 nodes[41][41].activate('#fa504d');
+*/
 
 var snappleShot = function() {
   return canvas.toDataURL();
@@ -213,7 +216,7 @@ Meteor.setInterval(function() {
   cycle(function() {
     Meteor.call('addSnapshot', snappleShot());
   });
-}, 1000/1);
+}, 1000/10);
 
 var restartFrequency = 1000 * 60 * 5;
 setTimeout(function(){

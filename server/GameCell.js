@@ -25,11 +25,15 @@ GameCell.prototype.activate = function activate(color) {
 };
 
 GameCell.prototype.draw = function draw(color) {
+  if ( color !== 'white' ) {
+  }
   this.ctx.fillStyle = color === 'white' ? 'white' : GameColorRanges[color][this.health];
   this.ctx.fillRect(this.lon * this.size, this.lat * this.size, this.size, this.size);
 };
 
 GameCell.prototype.changeHealth = function changeHealth(val) {
+  // Health can only be an integer
+  val = Math.round(val);
   this.health = this.health + val;
   if (this.health > 100) {
     this.health = 100;
@@ -93,7 +97,6 @@ GameCell.prototype.update = function update(cb) {
       _self.age = 0;
     }
   }
-  _self.draw(_self.color);
 
   if ( _self.inactiveCount > 0 ) {
     _self.inactiveCount--;
