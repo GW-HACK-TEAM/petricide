@@ -82,6 +82,8 @@ ctx.antialias = 'none';
 
 var i;
 var j;
+var rand1;
+var rand2;
 
 canvas.width = gridWidth;
 canvas.height = gridHeight;
@@ -217,6 +219,16 @@ Meteor.setTimeout( function gameEngineInit() {
     });
   }, 1000/15);
 }, 1000);
+
+
+Meteor.setInterval(function aiCycle() {
+  var color = colors[Math.round(Math.random() * colors.length - 1)];
+  if (running) {
+    rand1 = Math.round(Math.random() * gridWidth / size);
+    rand2 = Math.round(Math.random() * gridHeight / size);
+    nodes[rand1][rand2].clickEffect(color);
+  }
+}, 50);
 
 var restartFrequency = 1000 * 60 * 5;
 setTimeout(function(){
