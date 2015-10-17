@@ -42,11 +42,10 @@ GameCell.prototype.changeHealth = function changeHealth(val) {
     this.health = 0;
   }
 
-  this.draw(this.color);
-
   if (this.health === 0) {
     this.kill();
   }
+  this.draw(this.color);
 };
 
 GameCell.prototype.kill = function kill(explode) {
@@ -54,6 +53,7 @@ GameCell.prototype.kill = function kill(explode) {
   this.age = 0;
   this.active = false;
   this.inactiveCount = 5;
+  this.color = 'white';
   if ( explode ) {
     this.neighbours().forEach(function(item) {
       if ( item.active && item.color !== _self.color ) {
@@ -177,7 +177,7 @@ GameCell.prototype.neighbours = function neighbours() {
   return arr;
 };
 
-GameCell.prototype.clickEffect = function clickEffect(myColor) {
+GameCell.prototype.clickEffect = function clickEffect(myColor, cb) {
   var  val = 60;
   if ( this.active && this.color !== myColor ) {
     val = 0 - val;
@@ -200,4 +200,8 @@ GameCell.prototype.clickEffect = function clickEffect(myColor) {
       item.changeHealth(val);
     }
   });
+
+  if ( cb ) {
+    cb();
+  }
 };

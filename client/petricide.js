@@ -119,6 +119,7 @@ Template.canvas.events({
 Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
+  var imageObj = new Image();
   window.ctx = ctx;
 
   this.autorun(function() {
@@ -128,7 +129,7 @@ Template.canvas.onRendered(function () {
     if ( snap && snap.shot ) {
       if ( canvas ) {
         // load image from data url
-        var imageObj = new Image();
+        //var imageObj = new Image();
         imageObj.onload = function() {
           ctx.drawImage(imageObj, 0, 0);
         };
@@ -149,25 +150,6 @@ Template.canvas.onRendered(function () {
   canvas.height = gridHeight;
 
   var playerColor = '#fa504d';
-
-
-
-
-  for (i = 0; i < gridWidth / size; i++) {
-    nodes.push([]);
-    for (j = 0; j < gridHeight / size; j++) {
-      nodes[i].push(new GameCell(i, j, ctx, size, cellLifecycle, nodes));
-    }
-  }
-
-  function cycle() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (i = 0; i < nodes.length; i++) {
-      for (j = 0; j < nodes[i].length; j++) {
-        nodes[i][j].update();
-      }
-    }
-  }
 
   var mousex;
   var mousey;

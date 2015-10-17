@@ -2,7 +2,11 @@ Meteor.methods({
 
   addEvent:function(payload){
     if(payload){
-      nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color);
+      nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {
+        snappleShot(function(str) {
+          Meteor.call('addSnapshot', str);
+        });
+      });
     } else {
       console.error('no data');
     }
@@ -203,17 +207,21 @@ nodes[80][60].activate('#fa504d');
 nodes[81][59].activate('#fa504d');
 nodes[81][61].activate('#fa504d');
 
-var snappleShot = function() {
-  return canvas.toDataURL();
+var snappleShot = function(cb) {
+  canvas.toDataURL('image/png', function(err, str) {
+    cb(str);
+  });
 };
 
 // Set timeout to make sure all our game structures are set up before launching
 Meteor.setTimeout( function gameEngineInit() {
   Meteor.setInterval(function() {
     cycle(function() {
-      Meteor.call('addSnapshot', snappleShot());
+      snappleShot(function(str) {
+        Meteor.call('addSnapshot', str);
+      });
     });
-  }, 1000/30);
+  }, 1000/15);
 }, 1000);
 
 var restartFrequency = 1000 * 60 * 5;
