@@ -182,7 +182,6 @@ Streamy.on('playerAction', function(payload) {
 });
 
 Streamy.on('heartBeat', function() {
-  console.log('ping');
   cycle();
 });
 

@@ -82,7 +82,6 @@ Template.canvas.onRendered(function () {
   var i = 0;
   var j = 0;
 
-  console.log(data);
   if ( data && data.world && data.stamp ) {
     console.log('loading world data');
     data.world.forEach(function(node) {
