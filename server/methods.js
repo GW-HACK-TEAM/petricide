@@ -66,7 +66,7 @@ Meteor.methods({
 
 var Canvas = Meteor.npmRequire('canvas');
 
-var nodes = [];
+nodes = [];
 
 var gridWidth = 100;
 var gridHeight = 100;
@@ -90,8 +90,42 @@ canvas.height = gridHeight;
 
 var playerColor = '#fa504d';
 
+function increaseBrightness(hex, percent){
+  // strip the leading # if it's there
+  hex = hex.replace(/^\s*#|\s*$/g, '');
 
+  // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+  if(hex.length == 3){
+    hex = hex.replace(/(.)/g, '$1$1');
+  }
 
+  var r = parseInt(hex.substr(0, 2), 16);
+  var g = parseInt(hex.substr(2, 2), 16);
+  var b = parseInt(hex.substr(4, 2), 16);
+
+  return '#' +
+     ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
+     ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
+     ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+}
+
+var colors = [
+  '#49daf4',
+  '#a864a8',
+  '#f7941d',
+  '#00a99d',
+  '#fa504d'
+];
+
+GameColorRanges = {};
+
+// Precalculate colors to indicate cell health.
+colors.forEach(function(color) {
+  GameColorRanges[color] = [];
+  for(var i = 100; i >= 0; i--) {
+    GameColorRanges[color].push(increaseBrightness(color, i));
+  }
+});
 
 for (i = 0; i < gridWidth / size; i++) {
   nodes.push([]);
@@ -117,63 +151,6 @@ function cycle(cb) {
     }
   }
 }
-
-function increaseBrightness(hex, percent){
-  // strip the leading # if it's there
-  hex = hex.replace(/^\s*#|\s*$/g, '');
-
-  // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-  if(hex.length == 3){
-    hex = hex.replace(/(.)/g, '$1$1');
-  }
-
-  var r = parseInt(hex.substr(0, 2), 16);
-  var g = parseInt(hex.substr(2, 2), 16);
-  var b = parseInt(hex.substr(4, 2), 16);
-
-  return '#' +
-     ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
-     ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
-     ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
-}
-
-function getPosition(event) {
-  var x = event.x;
-  var y = event.y;
-
-  var windowWidth = $(window).width();
-  var heightWidth = $(window).height();
-
-  x -= canvas.offsetLeft;
-  y -= canvas.offsetTop;
-
-  // Find out the scaled X and Y coordinates
-  var scaledX = x * (gridWidth / $('#canvas').width());
-  var scaledY = y * (gridHeight / $('#canvas').height());
-
-  var contextX = Math.floor(scaledX / size);
-  var contextY = Math.floor(scaledY / size);
-
-  nodes[contextX][contextY].clickEffect(playerColor);
-}
-
-var colors = [
-  '#49daf4',
-  '#a864a8',
-  '#f7941d',
-  '#00a99d',
-  '#fa504d'
-];
-
-GameColorRanges = {};
-
-// Precalculate colors to indicate cell health.
-colors.forEach(function(color) {
-  GameColorRanges[color] = [];
-  for(var i = 100; i >= 0; i--) {
-    GameColorRanges[color].push(increaseBrightness(color, i));
-  }
-});
 
 // Activate starting points.
 
@@ -222,9 +199,9 @@ Meteor.setTimeout( function gameEngineInit() {
 
 
 Meteor.setInterval(function aiCycle() {
-  var color = colors[Math.round(Math.random() * colors.length - 1)];
-  rand1 = Math.round(Math.random() * gridWidth / size);
-  rand2 = Math.round(Math.random() * gridHeight / size);
+  var color = colors[Math.floor(Math.random() * colors.length)];
+  rand1 = Math.floor(Math.random() * gridWidth / size);
+  rand2 = Math.floor(Math.random() * gridHeight / size);
   nodes[rand1][rand2].clickEffect(color);
 }, 50);
 
