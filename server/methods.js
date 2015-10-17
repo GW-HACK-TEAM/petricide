@@ -114,9 +114,6 @@ function cycle(cb) {
   }
 }
 
-var mousex;
-var mousey;
-
 function increaseBrightness(hex, percent){
   // strip the leading # if it's there
   hex = hex.replace(/^\s*#|\s*$/g, '');
