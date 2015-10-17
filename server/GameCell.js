@@ -17,7 +17,8 @@ GameCell = function GameCell(i, j, ctx, size, cellLifecycle, nodes) {
   this.cachedNeighbours = [];
 };
 
-GameCell.prototype.activate = function activate(color) {
+GameCell.prototype.activate = function activate(color, startHealth) {
+  startHealth = startHealth || 5;
   this.color = color;
   this.active = true;
   this.changeHealth(5);
@@ -181,7 +182,7 @@ GameCell.prototype.clickEffect = function clickEffect(myColor, cb) {
     val = 0 - val;
     this.changeHealth(val);
   } else if ( !this.active ) {
-    this.activate(myColor);
+    this.activate(myColor, 75);
     this.playerActivated = true;
   } else if (this.active && this.color === myColor) {
     this.changeHealth(60);

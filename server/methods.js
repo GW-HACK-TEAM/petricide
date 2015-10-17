@@ -2,9 +2,7 @@ Meteor.methods({
 
   addEvent:function(payload){
     if(payload){
-      nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {
-        Meteor.call('addSnapshot', snappleShot());
-      });
+      nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {});
     } else {
       console.error('no data');
     }
