@@ -150,7 +150,7 @@ nodes[80][60].activate('#fa504d');
 nodes[81][59].activate('#fa504d');
 nodes[81][61].activate('#fa504d');
 
-var getWorld = function(cb) {
+getWorld = function(cb) {
   var i = 0;
   var j = 0;
   var colors = [];
@@ -182,6 +182,7 @@ Streamy.on('playerAction', function(payload) {
 });
 
 Streamy.on('heartBeat', function() {
+  console.log('ping');
   cycle();
 });
 
@@ -192,7 +193,7 @@ if ( Meteor.isServer ) {
     Meteor.setInterval(function() {
       cycle(function() {
         cycleCount++;
-        if ( cycleCount > 60 ) {
+        if ( cycleCount > 30 ) {
           cycleCount = 0;
           getWorld(function(colors) {
             Meteor.call('updateWorld', colors);

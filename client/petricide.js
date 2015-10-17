@@ -69,7 +69,6 @@ Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   var imageObj = new Image();
-  var lastServerUpdate = 0;
   var lastUserInputFromServer = 0;
   window.ctx = ctx;
   viewPort.setCanvas(canvas);
@@ -77,28 +76,14 @@ Template.canvas.onRendered(function () {
 
   $(window).resize();
 
-  this.autorun(function() {
-    var updates = GameData.find({}, {sort: {stamp: 1}}, {limit: 10}).fetch();
-    if (updates.length > 0) {
-      console.log(updates);
-      _.each(updates, function (elem) {
-        if ( elem.stamp > lastUserInputFromServer ) {
-          nodes[elem.clicks[0]][elem.clicks[1]].clickEffect(elem.user.color);
-          lastUserInputFromServer = elem.stamp;
-        }
-      });
-    }
-
-
-  });
-
-  var worlds = WorldData.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+  var worlds = WorldData.find({}).fetch();
   var data = _.first(worlds);
 
   var i = 0;
   var j = 0;
 
-  if ( data && data.world && data.stamp > lastServerUpdate ) {
+  console.log(data);
+  if ( data && data.world && data.stamp ) {
     console.log('loading world data');
     data.world.forEach(function(node) {
       nodes[i][j].color = node.color;
