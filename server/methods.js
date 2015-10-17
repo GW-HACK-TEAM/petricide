@@ -160,10 +160,13 @@ GameColorRanges = {};
 // Precalculate colors to indicate cell health.
 colors.forEach(function(color) {
   GameColorRanges[color] = [];
-  for(var i = 100; i === 0; i--) {
+  for(var i = 100; i >= 0; i--) {
     GameColorRanges[color].push(increaseBrightness(color, i));
   }
 });
+
+console.log(GameColorRanges);
+console.log(increaseBrightness('#ff0000', 50));
 
 // Activate starting points.
 
@@ -246,8 +249,8 @@ var snapShot = function canvasToImage(backgroundColor) {
 Meteor.setInterval(function() {
   cycle();
  // console.log(snapShot());
-  Meteor.call('addSnapshot', snapShot('white'));
-}, 1000/30);
+  Meteor.call('addSnapshot', snappleShot());
+}, 1000/1);
 
 var restartFrequency = 1000 * 60 * 5;
 setTimeout(function(){
