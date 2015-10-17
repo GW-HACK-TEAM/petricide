@@ -2,14 +2,9 @@ Meteor.methods({
 
   addEvent:function(payload){
     if(payload){
-      console.log(payload);
       payload.stamp = Date.now();
       Streamy.broadcast('playerAction', payload);
-      /*
-      GameData.remove({});
-      GameData.insert(payload);
-      */
-      //nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {});
+      nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {});
     } else {
       console.error('no data');
     }

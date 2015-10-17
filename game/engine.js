@@ -176,25 +176,33 @@ var getWorld = function(cb) {
   loop();
 };
 
-// Set timeout to make sure all our game structures are set up before launching
-var cycleCount = 0;
-Meteor.setTimeout( function gameEngineInit() {
-  Meteor.setInterval(function() {
-    cycle(function() {
-      cycleCount++;
-      if ( Meteor.isServer && cycleCount > 30 ) {
-        cycleCount = 0;
-        getWorld(function(colors) {
-          Meteor.call('updateWorld', colors);
-        });
-      }
-    });
-  }, 1000/30);
-}, 1000);
 
 Streamy.on('playerAction', function(payload) {
   nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {});
 });
+
+Streamy.on('heartBeat', function() {
+  cycle();
+});
+
+if ( Meteor.isServer ) {
+  // Set timeout to make sure all our game structures are set up before launching
+  var cycleCount = 0;
+  Meteor.setTimeout( function gameEngineInit() {
+    Meteor.setInterval(function() {
+      cycle(function() {
+        cycleCount++;
+        if ( cycleCount > 60 ) {
+          cycleCount = 0;
+          getWorld(function(colors) {
+            Meteor.call('updateWorld', colors);
+          });
+        }
+      });
+      Streamy.broadcast('heartBeat');
+    }, 1000/30);
+  }, 1000);
+}
 
 
 /*
