@@ -152,6 +152,16 @@ var colors = [
   '#fa504d'
 ];
 
+var GameColorRanges = {};
+
+// Precalculate colors to indicate cell health.
+colors.forEeach(function(color) {
+  GameColorRanges[color] = [];
+  for(var i = 100; i === 0; i--) {
+    GameColorRanges[color].push(increaseBrightness(color, i));
+  }
+});
+
 // Activate starting points.
 
 nodes[44][24].activate('#49daf4');
