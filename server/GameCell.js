@@ -79,7 +79,7 @@ GameCell.prototype.mode = function mode(array) {
   return maxEl;
 };
 
-GameCell.prototype.update = function update() {
+GameCell.prototype.update = function update(cb) {
   var _self = this;
   if ( _self.active ) {
     _self.age++;
@@ -97,14 +97,14 @@ GameCell.prototype.update = function update() {
 
   if ( _self.inactiveCount > 0 ) {
     _self.inactiveCount--;
-    return;
+    return cb();
   }
   _self.activeNeighBours = _.filter(_self.neighbours(), function(item) {
     return item.active && item.health >= 25;
   });
 
   if (!_self.active && _self.activeNeighBours.length === 0) {
-    return;
+    return cb();
   }
 
   if ( !_self.active && _self.activeNeighBours.length >= 3 ) {
@@ -129,6 +129,8 @@ GameCell.prototype.update = function update() {
       _self.kill();
     }
   }
+
+  cb();
 };
 
 GameCell.prototype.neighbours = function neighbours() {

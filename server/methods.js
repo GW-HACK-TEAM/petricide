@@ -69,7 +69,7 @@ var nodes = [];
 var gridWidth = 100;
 var gridHeight = 100;
 var size = 1;
-var cellLifecycle = 120;
+var cellLifecycle = 50;
 
 var canvas = new Canvas(gridWidth, gridHeight);
 var ctx = canvas.getContext("2d");
@@ -96,11 +96,19 @@ for (i = 0; i < gridWidth / size; i++) {
   }
 }
 
-function cycle() {
+function cycle(cb) {
+  var updated = 0;
+  var total = (gridWidth / size) * (gridHeight / size);
+  var updateCallback = function() {
+    updated++;
+    if ( updated === total ) {
+      cb();
+    }
+  };
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (i = 0; i < nodes.length; i++) {
     for (j = 0; j < nodes[i].length; j++) {
-      nodes[i][j].update();
+      nodes[i][j].update(updateCallback);
     }
   }
 }
@@ -165,9 +173,6 @@ colors.forEach(function(color) {
   }
 });
 
-console.log(GameColorRanges);
-console.log(increaseBrightness('#ff0000', 50));
-
 // Activate starting points.
 
 nodes[44][24].activate('#49daf4');
@@ -203,53 +208,11 @@ nodes[41][41].activate('#fa504d');
 var snappleShot = function() {
   return canvas.toDataURL();
 };
-var snapShot = function canvasToImage(backgroundColor) {
-  //cache height and width
-  var w = canvas.width;
-  var h = canvas.height;
-  var compositeOperation;
-
-  var data;
-
-  if(backgroundColor) {
-    //get the current ImageData for the canvas.
-    data = ctx.getImageData(0, 0, w, h);
-
-    //store the current globalCompositeOperation
-    compositeOperation = ctx.globalCompositeOperation;
-
-    //set to draw behind current content
-    ctx.globalCompositeOperation = "destination-over";
-
-    //set background color
-    ctx.fillStyle = backgroundColor;
-
-    //draw background / rect on entire canvas
-    ctx.fillRect(0,0,w,h);
-  }
-
-  //get the image data from the canvas
-  var imageData = canvas.toDataURL();
-
-  if(backgroundColor) {
-    //clear the canvas
-    ctx.clearRect (0,0,w,h);
-
-    //restore it with original / cached ImageData
-    ctx.putImageData(data, 0,0);
-
-    //reset the globalCompositeOperation to what it was
-    ctx.globalCompositeOperation = compositeOperation;
-  }
-
-  //return the Base64 encoded data url string
-  return imageData;
-};
 
 Meteor.setInterval(function() {
-  cycle();
- // console.log(snapShot());
-  Meteor.call('addSnapshot', snappleShot());
+  cycle(function() {
+    Meteor.call('addSnapshot', snappleShot());
+  });
 }, 1000/1);
 
 var restartFrequency = 1000 * 60 * 5;
