@@ -105,6 +105,25 @@ function cycle() {
 var mousex;
 var mousey;
 
+function increaseBrightness(hex, percent){
+  // strip the leading # if it's there
+  hex = hex.replace(/^\s*#|\s*$/g, '');
+
+  // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+  if(hex.length == 3){
+    hex = hex.replace(/(.)/g, '$1$1');
+  }
+
+  var r = parseInt(hex.substr(0, 2), 16);
+  var g = parseInt(hex.substr(2, 2), 16);
+  var b = parseInt(hex.substr(4, 2), 16);
+
+  return '#' +
+     ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
+     ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
+     ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+}
+
 function getPosition(event) {
   var x = event.x;
   var y = event.y;
@@ -125,8 +144,6 @@ function getPosition(event) {
   nodes[contextX][contextY].clickEffect(playerColor);
 }
 
-var rand1;
-var rand2;
 var colors = [
   '#49daf4',
   '#a864a8',
@@ -134,16 +151,6 @@ var colors = [
   '#00a99d',
   '#fa504d'
 ];
-
-//setInterval(function aiCycle() {
-//  var color = colors[Math.round(Math.random() * colors.length - 1)]
-//  if (running) {
-//    rand1 = Math.round(Math.random() * gridWidth / size);
-//    rand2 = Math.round(Math.random() * gridHeight / size);
-//    nodes[rand1][rand2].clickEffect(color);
-//  }
-//}, 50);
-
 
 // Activate starting points.
 
