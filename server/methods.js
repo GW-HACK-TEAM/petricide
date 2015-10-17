@@ -223,11 +223,9 @@ Meteor.setTimeout( function gameEngineInit() {
 
 Meteor.setInterval(function aiCycle() {
   var color = colors[Math.round(Math.random() * colors.length - 1)];
-  if (running) {
-    rand1 = Math.round(Math.random() * gridWidth / size);
-    rand2 = Math.round(Math.random() * gridHeight / size);
-    nodes[rand1][rand2].clickEffect(color);
-  }
+  rand1 = Math.round(Math.random() * gridWidth / size);
+  rand2 = Math.round(Math.random() * gridHeight / size);
+  nodes[rand1][rand2].clickEffect(color);
 }, 50);
 
 var restartFrequency = 1000 * 60 * 5;
