@@ -41,6 +41,7 @@ Template.canvas.helpers({
     }
     $(window).resize();
   },
+  /*
   addSnap: function() {
     var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
     var snap = _.first(snaps);
@@ -60,7 +61,8 @@ Template.canvas.helpers({
         imageObj.src = snap.shot;
       }
     }
-  }
+  },
+  */
 });
 
 Template.app.helpers({
@@ -118,6 +120,24 @@ Template.canvas.onRendered(function () {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   window.ctx = ctx;
+
+  this.autorun(function() {
+    var snaps = SnapShots.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+    var snap = _.first(snaps);
+    //console.log(snap);
+    if ( snap && snap.shot ) {
+      if ( canvas ) {
+        // load image from data url
+        var imageObj = new Image();
+        imageObj.onload = function() {
+          ctx.drawImage(imageObj, 0, 0);
+        };
+
+        imageObj.src = snap.shot;
+      }
+    }
+  });
+
 
 
   var i;
