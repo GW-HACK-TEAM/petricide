@@ -150,7 +150,7 @@ nodes[80][60].activate('#fa504d');
 nodes[81][59].activate('#fa504d');
 nodes[81][61].activate('#fa504d');
 
-getWorld = function(cb) {
+var getWorld = function(cb) {
   var i = 0;
   var j = 0;
   var colors = [];
@@ -176,6 +176,8 @@ getWorld = function(cb) {
   loop();
 };
 
+var getWorldAsync = Meteor.wrapAsync(getWorld);
+
 
 Streamy.on('playerAction', function(payload) {
   nodes[payload.clicks[0]][payload.clicks[1]].clickEffect(payload.user.color, function() {});
@@ -190,17 +192,19 @@ if ( Meteor.isServer ) {
   var cycleCount = 0;
   Meteor.setTimeout( function gameEngineInit() {
     Meteor.setInterval(function() {
+      Streamy.broadcast('heartBeat');
       cycle(function() {
         cycleCount++;
         if ( cycleCount > 30 ) {
           cycleCount = 0;
-          getWorld(function(colors) {
-            Meteor.call('updateWorld', colors);
-          });
+          Meteor.setTimeout(function() {
+            getWorldAsync(function(colors) {
+              Meteor.call('updateWorld', colors);
+            });
+          }, 0);
         }
       });
-      Streamy.broadcast('heartBeat');
-    }, 1000/30);
+    }, 1000/20);
   }, 1000);
 }
 
