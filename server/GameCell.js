@@ -25,7 +25,7 @@ GameCell.prototype.activate = function activate(color) {
 };
 
 GameCell.prototype.draw = function draw(color) {
-  this.ctx.fillStyle = GameColorRanges[color][this.health];
+  this.ctx.fillStyle = color === 'white' ? 'white' : GameColorRanges[color][this.health];
   this.ctx.fillRect(this.lon * this.size, this.lat * this.size, this.size, this.size);
 };
 

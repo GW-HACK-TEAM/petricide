@@ -155,7 +155,7 @@ var colors = [
   '#fa504d'
 ];
 
-var GameColorRanges = {};
+GameColorRanges = {};
 
 // Precalculate colors to indicate cell health.
 colors.forEach(function(color) {
