@@ -216,7 +216,7 @@ Meteor.setInterval(function() {
   cycle(function() {
     Meteor.call('addSnapshot', snappleShot());
   });
-}, 1000/10);
+}, 1000/30);
 
 var restartFrequency = 1000 * 60 * 5;
 setTimeout(function(){

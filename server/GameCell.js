@@ -89,9 +89,9 @@ GameCell.prototype.update = function update(cb) {
     _self.age++;
 
     if ( _self.age < _self.cellLifecycle * 0.6 ) {
-      _self.changeHealth(6);
+      _self.changeHealth(3);
     } else if ( _self.health > 20 ) {
-      _self.changeHealth(-8.4);
+      _self.changeHealth(-4);
     }
     if ( _self.age > _self.cellLifecycle ) {
       _self.age = 0;
