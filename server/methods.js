@@ -173,13 +173,12 @@ colors.forEach(function(color) {
 
 // Activate starting points.
 
-nodes[44][24].activate('#49daf4');
-nodes[44][26].activate('#49daf4');
-nodes[45][25].activate('#49daf4');
-nodes[46][24].activate('#49daf4');
-nodes[46][26].activate('#49daf4');
+nodes[44][74].activate('#49daf4');
+nodes[44][76].activate('#49daf4');
+nodes[45][75].activate('#49daf4');
+nodes[46][74].activate('#49daf4');
+nodes[46][76].activate('#49daf4');
 
-/*
 nodes[34][44].activate('#a864a8');
 nodes[34][46].activate('#a864a8');
 nodes[35][45].activate('#a864a8');
@@ -198,22 +197,24 @@ nodes[18][40].activate('#00a99d');
 nodes[19][39].activate('#00a99d');
 nodes[19][41].activate('#00a99d');
 
-nodes[39][39].activate('#fa504d');
-nodes[39][41].activate('#fa504d');
-nodes[40][40].activate('#fa504d');
-nodes[41][39].activate('#fa504d');
-nodes[41][41].activate('#fa504d');
-*/
+nodes[79][59].activate('#fa504d');
+nodes[79][61].activate('#fa504d');
+nodes[80][60].activate('#fa504d');
+nodes[81][59].activate('#fa504d');
+nodes[81][61].activate('#fa504d');
 
 var snappleShot = function() {
   return canvas.toDataURL();
 };
 
-Meteor.setInterval(function() {
-  cycle(function() {
-    Meteor.call('addSnapshot', snappleShot());
-  });
-}, 1000/30);
+// Set timeout to make sure all our game structures are set up before launching
+Meteor.setTimeout( function gameEngineInit() {
+  Meteor.setInterval(function() {
+    cycle(function() {
+      Meteor.call('addSnapshot', snappleShot());
+    });
+  }, 1000/30);
+}, 1000);
 
 var restartFrequency = 1000 * 60 * 5;
 setTimeout(function(){
