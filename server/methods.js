@@ -74,6 +74,7 @@ var cellLifecycle = 120;
 var canvas = new Canvas(gridWidth, gridHeight);
 var ctx = canvas.getContext("2d");
 
+// Disable antialiasing
 ctx.antialias = 'none';
 
 
