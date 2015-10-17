@@ -89,29 +89,29 @@ Template.canvas.onRendered(function () {
       });
     }
 
-    var worlds = WorldData.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
-    var data = _.first(worlds);
-
-    var i = 0;
-    var j = 0;
-
-    console.log('recieved sync data');
-
-    if ( data && data.world && data.stamp > lastServerUpdate ) {
-      data.world.forEach(function(node) {
-        nodes[i][j].color = node.color;
-        nodes[i][j].active = node.active;
-        nodes[i][j].health = node.health;
-        nodes[i][j].age = node.age;
-        j++;
-        if ( j === 100 ) {
-          i++;
-          j = 0;
-        }
-      });
-    }
 
   });
+
+  var worlds = WorldData.find({}, {sort: {stamp: -1}}, {limit: 10}).fetch();
+  var data = _.first(worlds);
+
+  var i = 0;
+  var j = 0;
+
+  if ( data && data.world && data.stamp > lastServerUpdate ) {
+    console.log('loading world data');
+    data.world.forEach(function(node) {
+      nodes[i][j].color = node.color;
+      nodes[i][j].active = node.active;
+      nodes[i][j].health = node.health;
+      nodes[i][j].age = node.age;
+      j++;
+      if ( j === 100 ) {
+        i++;
+        j = 0;
+      }
+    });
+  }
 
   window.running = true;
 
