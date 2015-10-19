@@ -1,10 +1,3 @@
-var gridWidth = 100;
-var gridHeight = 100;
-var size = 1;
-
-nodes = [];
-
-
 /**
  * Helpers
  */

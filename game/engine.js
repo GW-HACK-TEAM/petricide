@@ -9,9 +9,9 @@ viewPort = new ViewPort();
 
 nodes = [];
 
-var gridWidth = 100;
-var gridHeight = 100;
-var size = 1;
+gridWidth = 50;
+gridHeight = 50;
+size = 1;
 var cellLifecycle = 50;
 
 /*
@@ -108,8 +108,8 @@ var cycle = (function cycleClosure() {
     if ( Meteor.isClient ) {
       viewPort.fill('white', 0, 0, gridWidth, gridHeight);
     }
-    for (_i = 0; _i < 100; _i++) {
-      for (_j = 0; _j < 100; _j++) {
+    for (_i = 0; _i < gridWidth; _i++) {
+      for (_j = 0; _j < gridHeight; _j++) {
         nodes[_i][_j].update(_cycleUpdateCallback);
       }
     }
@@ -120,11 +120,11 @@ var cycle = (function cycleClosure() {
 
 // Activate starting points.
 
-nodes[44][74].activate('#49daf4');
-nodes[44][76].activate('#49daf4');
-nodes[45][75].activate('#49daf4');
-nodes[46][74].activate('#49daf4');
-nodes[46][76].activate('#49daf4');
+nodes[44][14].activate('#49daf4');
+nodes[44][16].activate('#49daf4');
+nodes[45][15].activate('#49daf4');
+nodes[46][14].activate('#49daf4');
+nodes[46][16].activate('#49daf4');
 
 nodes[34][44].activate('#a864a8');
 nodes[34][46].activate('#a864a8');
@@ -144,11 +144,11 @@ nodes[18][40].activate('#00a99d');
 nodes[19][39].activate('#00a99d');
 nodes[19][41].activate('#00a99d');
 
-nodes[79][59].activate('#fa504d');
-nodes[79][61].activate('#fa504d');
-nodes[80][60].activate('#fa504d');
-nodes[81][59].activate('#fa504d');
-nodes[81][61].activate('#fa504d');
+nodes[9][9].activate('#fa504d');
+nodes[9][11].activate('#fa504d');
+nodes[10][10].activate('#fa504d');
+nodes[11][9].activate('#fa504d');
+nodes[11][11].activate('#fa504d');
 
 var getWorld = function(cb) {
   var i = 0;
@@ -209,11 +209,13 @@ if ( Meteor.isServer ) {
 }
 
 
-/*
 Meteor.setInterval(function aiCycle() {
   var color = colors[Math.floor(Math.random() * colors.length)];
   rand1 = Math.floor(Math.random() * gridWidth / size);
   rand2 = Math.floor(Math.random() * gridHeight / size);
-  nodes[rand1][rand2].clickEffect(color);
-}, 50);
-*/
+  var event = {
+    clicks: [rand1, rand2],
+    user: { name: 'AI', color: color }
+  };
+  Meteor.call('addEvent', event);
+}, 200);
